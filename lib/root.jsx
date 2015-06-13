@@ -6,7 +6,7 @@ var Root = React.createClass({
     return (
       <article>
         <h1>ROOT</h1>
-        <p>Lorem ipsum</p>
+        <p>^_^</p>
       </article>
     );
   }

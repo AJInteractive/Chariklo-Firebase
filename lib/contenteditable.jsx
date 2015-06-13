@@ -11,19 +11,19 @@ var ContentEditable = React.createClass({
     var words = [];
     
     var tokens = this.props.text.split(' ');
-    var unit = (this.props.end - this.props.start)/tokens.lenght;
-        
+    var unit = (this.props.end - this.props.start)/tokens.length;
+            
     for (var i = 0; i < tokens.length; i++) {
     
       words.push({
         name: tokens[i],
-        time: this.props.start + i*unit
+        time: Math.floor(this.props.start + i*unit)
       });
       
       var classes = '';
-      if (words[i].time < 0) classes += ' unedited';
+      if (words[i].time < 0 || isNaN(words[i].time)) classes += ' unedited';
       if (words[i].time > -1 && words[i].time < this.props.time) classes += ' past';
-      html += '<span class="' + classes + '">' + tokens[i] + ' </span>';
+      html += '<span title="' + words[i].time + '" class="' + classes + '">' + tokens[i] + ' </span>';
     }
     
     html += '</p>';    
@@ -39,7 +39,7 @@ var ContentEditable = React.createClass({
   },
 
   shouldComponentUpdate: function(nextProps){
-    var html = this.getDOMNode().innerHTML;
+    var html = React.findDOMNode(this).innerHTML;//this.getDOMNode().innerHTML;
     var text = $(html).text().trim();
     
     return (nextProps.text !== text 
@@ -59,7 +59,7 @@ var ContentEditable = React.createClass({
   // },
 
   emitChange: function(event) {
-    var html = this.getDOMNode().innerHTML;
+    var html = React.findDOMNode(this).innerHTML;//this.getDOMNode().innerHTML;
     var text = $(html).text().trim();
     if (this.props.onChange && html !== this.lastHtml && this.props.text !== text) {
       event.target = { 

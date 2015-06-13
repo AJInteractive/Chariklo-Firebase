@@ -24,6 +24,61 @@ article.transcript div.paragraph {
   margin-top: 1em;
 }
 
+article.transcript span {
+  color: #888888;
+}
+
+article.transcript span.past, article.transcript td.past span {
+  color: black;
+}
+
+article.transcript span.unedited {
+  color: red;
+}
+
+tr {
+  border-bottom: 1px solid transparent;
+}
+
+tr:hover {
+  border-bottom: 1px solid #888888;
+  background: #ececec;
+}
+
+td.top {
+  vertical-align: top;
+}
+
+td.bottom {
+  vertical-align: bottom;
+  position: relative;
+}
+
+td.bottom button {
+  bottom: 0;
+  left: 3px;
+  position: absolute;
+}
+
+td.baseline {
+  vertical-align: baseline;
+  position: relative;
+}
+
+td.baseline button {
+  top: 3px;
+  right: 3px;
+  position: absolute;
+}
+
+article.transcript button {
+  font-family: 'Fira Mono';
+  font-size: 10px;
+  margin: 0;
+  padding: 1px;
+}
+
+
 .box {
   position: fixed;
   width: 200px;

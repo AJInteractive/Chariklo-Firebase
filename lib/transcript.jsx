@@ -31,6 +31,7 @@ var Transcript = React.createClass({
   
   getInitialState: function() {
     return {
+      video: null,
       lines: [],
       time: 0,
       smpte: ''
@@ -44,18 +45,43 @@ var Transcript = React.createClass({
   componentWillReceiveProps: function(nextProps) {
     if (nextProps.id !== this.props.id || nextProps.lang !== this.props.lang) {
       this.unbind('lines');
-      this.bindAsArray(new Firebase('https://chariklo.firebaseio.com/transcript-' + nextProps.id + '-' + nextProps.lang), 'lines');
+      this.bindAsArray(
+        this.firebaseRef.child('transcript-' 
+        + nextProps.id 
+        + '-' + nextProps.lang
+        + (nextProps.suffix?'-' + nextProps.suffix : '')
+      ).orderByChild('sort'), 'lines');
     }
   },
   
   componentWillMount: function() {
-    this.bindAsArray(new Firebase('https://chariklo.firebaseio.com/transcript-' + this.props.id + '-' + this.props.lang), 'lines');
+    this.firebaseRef = new Firebase('https://chariklo.firebaseio.com/');
+    this.bindAsArray(
+      this.firebaseRef.child('transcript-' 
+      + this.props.id 
+      + '-' + this.props.lang
+      + (this.props.suffix?'-' + this.props.suffix : '')
+    ).orderByChild('sort'), 'lines');
+    
+    var self = this;
+    var videosRef = this.firebaseRef.child('videos-' + this.props.lang);
+    videosRef.orderByChild('id').startAt(this.props.id).endAt(this.props.id).once('value', function(snapshot) {
+      var value = snapshot.val();
+      for (var key in value) {
+        var data = value[key];
+        if (data.id == self.props.id) {
+          var video = data['vimeo sd'];
+          if (video == '') video = data['vimeo hd'];
+          self.setState({video});
+        } 
+      }
+    });
   },
   
   componentWillUnmount: function() {
-    this.unbind('lines');
+    // this.unbind('lines');
     if (this.media) {
-      this.media.removeEventListener( "timeupdate", this.mediaTimeupdate);
+      this.media.removeEventListener('timeupdate', this.mediaTimeupdate);
     }
   },
     
@@ -69,16 +95,53 @@ var Transcript = React.createClass({
     };
   },
   
+  setStartFor: function(key, index, start) {
+    var self = this;
+    return function(event) {      
+      if (event.metaKey || event.shiftKey) {
+        var lineRef = self.firebaseRefs.lines.child(key);
+        lineRef.update({
+          start: self.state.time
+        });
+      } else self.media.currentTime = start/1000;
+    };
+  },
+  
+  setEndFor: function(key, index, end) {
+    var self = this;
+    return function(event) {     
+      if (event.metaKey || event.shiftKey) { 
+        var lineRef = self.firebaseRefs.lines.child(key);
+        lineRef.update({
+          end: self.state.time
+        });
+        // set next start if -1
+        if (index < self.state.lines.length - 1 && self.state.lines[index + 1].start == -1) {
+          var nextLineRef = self.firebaseRefs.lines.child(self.state.lines[index + 1].key);
+          nextLineRef.update({
+            start: self.state.time
+          });
+        }
+      } else self.media.currentTime = end/1000;
+    };
+  },
+  
   createLine: function(line, index) {
-    // return (
-    //   <div key={line.key} className={line.para?'paragraph':'line'}>
-    //     <ContentEditable html={'<p>' + line.text + '</p>'} onChange={this.handleChangeFor(line.key)} />
-    //   </div>
-    // );
+    var classes = 'top';
+    if (line.end < this.state.time && line.end > 0) classes += ' past';
+    
     return (
-      <div key={line.key} className={line.para?'paragraph':'line'}>
-        <ContentEditable text={line.text.trim()} start={line.start} end={line.end} onChange={this.handleTextChangeFor(line.key)} time={this.state.time} />
-      </div>
+      <tr key={line.key} className={line.para?'paragraph':'line'}>
+        <td className="baseline">
+          <button onClick={this.setStartFor(line.key, index, line.start)}>{line.start}</button>
+        </td>
+        <td className={classes}>
+          <ContentEditable text={line.text.trim()} start={line.start} end={line.end} onChange={this.handleTextChangeFor(line.key)} time={this.state.time} />
+        </td>
+        <td className="bottom">
+          <button onClick={this.setEndFor(line.key, index, line.end)}>{line.end}</button>
+        </td>
+      </tr>
     );
   },
       
@@ -87,14 +150,16 @@ var Transcript = React.createClass({
       <article className={this.props.lang + ' transcript'}>
         <div className="box stripes pace-hide" ref="box">
           <span>{this.state.smpte}</span>
-          <video ref="media" controls src="http://player.vimeo.com/external/129669280.hd.mp4?s=e2b2185feabd68d101b37f5830c84404&profile_id=113"></video>
+          <video ref="media" controls src={this.state.video}></video>
         </div>
         <header>
           <h1>Transcript {this.props.id}-{this.props.lang}</h1>
         </header>
-        <section>
-          {this.state.lines.map(this.createLine)}
-        </section>
+        <table>
+          <tbody>
+            {this.state.lines.map(this.createLine)}
+          </tbody>
+        </table>
       </article>
     );
   },
@@ -102,7 +167,7 @@ var Transcript = React.createClass({
   componentDidMount: function() {
     
     var self = this;
-    this.media = this.refs.media.getDOMNode();    
+    this.media = React.findDOMNode(this.refs.media);    
     this.mediaTimeupdate = function (event) {
       var time = Math.round(1000*this.currentTime);
       var smpte = '';
