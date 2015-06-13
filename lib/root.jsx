@@ -4,10 +4,10 @@ var Root = React.createClass({
   render: function() {
     return (
       <h1>
-        Hello, world! 
+        Hello, world!
       </h1>
     );
   }
 });
 
-export Root;
+export default Root;

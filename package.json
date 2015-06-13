@@ -10,7 +10,8 @@
       "jsx": "github:floatdrop/plugin-jsx@^1.1.0",
       "liabru/dat-gui-light-theme.git": "github:liabru/dat-gui-light-theme@master",
       "lodash-node": "npm:lodash-node@^3.9.3",
-      "normalize.css": "github:necolas/normalize.css@^3.0.3"
+      "normalize.css": "github:necolas/normalize.css@^3.0.3",
+      "react": "npm:react@^0.14.0-alpha3"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.1.13",
