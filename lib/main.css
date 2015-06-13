@@ -11,6 +11,14 @@ article.ingest textarea {
   height: 50vw;
 }
 
+article.transcript p {
+  margin: 0;
+}
+
+article.transcript div.paragraph {
+  margin-top: 1em;
+}
+
 .box {
   position: fixed;
   width: 200px;

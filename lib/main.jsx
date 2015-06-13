@@ -15,7 +15,7 @@ let routes = {
   '/': Root,
   '/about': About,
   '/ingest/:id': Ingest,
-  '/transcript/:id': Transcript
+  '/transcript/:id/:lang': Transcript
 };
 
 React.render((
