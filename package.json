@@ -7,6 +7,7 @@
       "dat-gui": "bower:dat-gui@^0.5.1",
       "interact.js": "npm:interact.js@^1.2.4",
       "jquery": "github:components/jquery@^2.1.4",
+      "jsx": "github:floatdrop/plugin-jsx@^1.1.0",
       "liabru/dat-gui-light-theme.git": "github:liabru/dat-gui-light-theme@master",
       "lodash-node": "npm:lodash-node@^3.9.3",
       "normalize.css": "github:necolas/normalize.css@^3.0.3"
