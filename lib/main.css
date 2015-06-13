@@ -2,6 +2,15 @@ body {
   font-family: 'Fira Sans', sans-serif;
 }
 
+article {
+  padding: 3em;
+}
+
+article.ingest textarea {
+  width: 100%;
+  height: 50vw;
+}
+
 .box {
   position: fixed;
   width: 200px;

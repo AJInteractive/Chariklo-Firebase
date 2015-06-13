@@ -1,19 +1,21 @@
 import {bootstrap} from './bootstrap';
 bootstrap();
 
-// import interact from 'interact.js';
-// import {ingestSetup} from './ingest';
 
 import React from 'react';
 import Router from 'tiny-react-router';
 
 import Root from './root.jsx!';
 import About from './about.jsx!';
+import Ingest from './ingest.jsx!';
+import Transcript from './transcript.jsx!';
 
 
 let routes = {
   '/': Root,
-  '/about': About
+  '/about': About,
+  '/ingest/:id': Ingest,
+  '/transcript/:id': Transcript
 };
 
 React.render((
@@ -22,12 +24,7 @@ React.render((
 
 
 
-// ingestSetup();
-
-// React.render(
-//   React.createElement(Root, null),
-//   document.getElementById('root')
-// );
+// import interact from 'interact.js';
 
 
 //

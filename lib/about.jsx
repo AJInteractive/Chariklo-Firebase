@@ -4,9 +4,10 @@ var About = React.createClass({
   
   render: function() {
     return (
-      <h1>
-        About…
-      </h1>
+      <article>
+        <h1>About</h1>
+        <p>Lorem ipsum</p>
+      </article>
     );
   }
   
