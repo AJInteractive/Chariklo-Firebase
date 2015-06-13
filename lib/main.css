@@ -15,6 +15,11 @@ article.transcript p {
   margin: 0;
 }
 
+article.transcript.arabic p {
+  font-family: 'Amiri', serif;
+  direction: rtl;
+}
+
 article.transcript div.paragraph {
   margin-top: 1em;
 }
