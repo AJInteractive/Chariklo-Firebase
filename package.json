@@ -5,13 +5,15 @@
       "components/jquery": "github:components/jquery@^2.1.4",
       "css": "npm:jspm-loader-css@^0.1.1",
       "dat-gui": "bower:dat-gui@^0.5.1",
+      "firebase": "npm:firebase@^2.2.7",
       "interact.js": "npm:interact.js@^1.2.4",
       "jquery": "github:components/jquery@^2.1.4",
       "jsx": "github:floatdrop/plugin-jsx@^1.1.0",
       "liabru/dat-gui-light-theme.git": "github:liabru/dat-gui-light-theme@master",
       "lodash-node": "npm:lodash-node@^3.9.3",
       "normalize.css": "github:necolas/normalize.css@^3.0.3",
-      "react": "npm:react@^0.14.0-alpha3"
+      "react": "npm:react@^0.14.0-alpha3",
+      "reactfire": "npm:reactfire@^0.4.0"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.1.13",
