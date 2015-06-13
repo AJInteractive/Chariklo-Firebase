@@ -1,0 +1,32 @@
+{
+  "jspm": {
+    "directories": {},
+    "dependencies": {
+      "components/jquery": "github:components/jquery@^2.1.4",
+      "dat-gui": "bower:dat-gui@^0.5.1",
+      "interact.js": "npm:interact.js@^1.2.4",
+      "jquery": "github:components/jquery@^2.1.4",
+      "liabru/dat-gui-light-theme.git": "github:liabru/dat-gui-light-theme@master",
+      "lodash-node": "npm:lodash-node@^3.9.3",
+      "normalize.css": "github:necolas/normalize.css@^3.0.3"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.1.13",
+      "babel-runtime": "npm:babel-runtime@^5.1.13",
+      "core-js": "npm:core-js@^0.9.4"
+    },
+    "overrides": {
+      "npm:normalize.css@3.0.3": {
+        "main": "normalize.css!"
+      },
+      "bower:dat-gui@0.5.1": {
+        "main": "build/dat.gui.js",
+        "format": "global"
+      }
+    }
+  },
+  "devDependencies": {
+    "jspm": "^0.15.7",
+    "jspm-bower-endpoint": "^0.3.2"
+  }
+}
