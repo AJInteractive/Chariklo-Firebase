@@ -20,6 +20,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.5.6",
     "components/jquery": "github:components/jquery@2.1.4",
     "core-js": "npm:core-js@0.9.16",
+    "css": "npm:jspm-loader-css@0.1.1",
     "dat-gui": "bower:dat-gui@0.5.1",
     "interact.js": "npm:interact.js@1.2.4",
     "jquery": "github:components/jquery@2.1.4",
@@ -116,11 +117,37 @@ System.config({
     "npm:core-util-is@1.0.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
+    "npm:css-modules-loader-core@0.0.7": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "postcss": "npm:postcss@4.1.11",
+      "postcss-modules-extract-imports": "npm:postcss-modules-extract-imports@0.0.3",
+      "postcss-modules-local-by-default": "npm:postcss-modules-local-by-default@0.0.7",
+      "postcss-modules-scope": "npm:postcss-modules-scope@0.0.5"
+    },
+    "npm:css-selector-tokenizer@0.3.1": {
+      "fastparse": "npm:fastparse@1.1.1"
+    },
+    "npm:es6-promise@2.1.1": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "util": "github:jspm/nodelibs-util@0.1.0"
+    },
+    "npm:fastparse@1.1.1": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
     "npm:https-browserify@0.0.0": {
       "http": "github:jspm/nodelibs-http@1.7.1"
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
+    },
+    "npm:js-base64@2.1.8": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0"
+    },
+    "npm:jspm-loader-css@0.1.1": {
+      "css-modules-loader-core": "npm:css-modules-loader-core@0.0.7",
+      "path": "npm:path@0.11.14"
     },
     "npm:lodash-node@3.9.3": {
       "process": "github:jspm/nodelibs-process@0.1.1"
@@ -130,6 +157,32 @@ System.config({
     },
     "npm:path-browserify@0.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:path@0.11.14": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "util": "github:jspm/nodelibs-util@0.1.0"
+    },
+    "npm:postcss-modules-extract-imports@0.0.3": {
+      "postcss": "npm:postcss@4.1.11",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:postcss-modules-local-by-default@0.0.7": {
+      "css-selector-tokenizer": "npm:css-selector-tokenizer@0.3.1",
+      "postcss": "npm:postcss@4.1.11"
+    },
+    "npm:postcss-modules-scope@0.0.5": {
+      "postcss": "npm:postcss@4.1.11",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:postcss@4.1.11": {
+      "es6-promise": "npm:es6-promise@2.1.1",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "js-base64": "npm:js-base64@2.1.8",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "source-map": "npm:source-map@0.4.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:punycode@1.3.2": {
       "process": "github:jspm/nodelibs-process@0.1.1"
@@ -147,6 +200,12 @@ System.config({
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:source-map@0.1.43": {
+      "amdefine": "npm:amdefine@0.1.1",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:source-map@0.4.2": {
       "amdefine": "npm:amdefine@0.1.1",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",

@@ -3,6 +3,7 @@
     "directories": {},
     "dependencies": {
       "components/jquery": "github:components/jquery@^2.1.4",
+      "css": "npm:jspm-loader-css@^0.1.1",
       "dat-gui": "bower:dat-gui@^0.5.1",
       "interact.js": "npm:interact.js@^1.2.4",
       "jquery": "github:components/jquery@^2.1.4",
