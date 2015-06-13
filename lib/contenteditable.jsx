@@ -61,6 +61,7 @@ var ContentEditable = React.createClass({
   emitChange: function(event) {
     var html = React.findDOMNode(this).innerHTML;//this.getDOMNode().innerHTML;
     var text = $(html).text().trim();
+        
     if (this.props.onChange && html !== this.lastHtml && this.props.text !== text) {
       event.target = { 
         value: html,

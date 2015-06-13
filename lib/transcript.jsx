@@ -5,6 +5,7 @@ import Firebase from 'firebase';
 import ContentEditable from './contenteditable.jsx!';
 
 import $ from 'jquery';
+import _ from 'lodash-node';
 import interact from 'interact.js';
 import {VideoFrame} from 'X3TechnologyGroup/VideoFrame';
 
@@ -85,13 +86,39 @@ var Transcript = React.createClass({
     }
   },
     
-  handleTextChangeFor: function(key) {
+  handleTextChangeFor: function(key, index, order) {
     var self = this;
-    return function(event) {      
-      var lineRef = self.firebaseRefs.lines.child(key);
-      lineRef.update({
-        text: event.target.text
-      });
+    return function(event) {
+      var paras = $(event.target.value).filter('p');
+      
+      if (paras.length > 1) {
+        // assume 2 paras only
+        var lineRef = self.firebaseRefs.lines.child(key);
+        
+        var nextLine = {order: order + 1337};
+        if (index < self.lines.length - 1) nextLine = self.lines[index + 1];
+        
+        var end = Math.floor((self.lines[index].end + self.lines[index].start)/2);
+        
+        lineRef.update({
+          end,
+          text: $(paras[0]).text().trim()
+        });
+        
+        self.firebaseRefs.lines.push({
+          para: true,
+          start: end,
+          end: self.lines[index].end,
+          text: $(paras[1]).text().trim(),
+          order: (order + nextLine.order)/2
+        });
+        //
+      } else {           
+        var lineRef = self.firebaseRefs.lines.child(key);
+        lineRef.update({
+          text: event.target.text
+        });
+      }
     };
   },
   
@@ -108,7 +135,7 @@ var Transcript = React.createClass({
   },
   
   setEndFor: function(key, index, end) {
-    var self = this;
+    var self = this;  
     return function(event) {     
       if (event.metaKey || event.shiftKey) { 
         var lineRef = self.firebaseRefs.lines.child(key);
@@ -116,8 +143,8 @@ var Transcript = React.createClass({
           end: self.state.time
         });
         // set next start if -1
-        if (index < self.state.lines.length - 1 && self.state.lines[index + 1].start == -1) {
-          var nextLineRef = self.firebaseRefs.lines.child(self.state.lines[index + 1].key);
+        if (index < self.lines.length - 1 && self.lines[index + 1].start == -1) {
+          var nextLineRef = self.firebaseRefs.lines.child(self.lines[index + 1].key);
           nextLineRef.update({
             start: self.state.time
           });
@@ -136,7 +163,7 @@ var Transcript = React.createClass({
           <button onClick={this.setStartFor(line.key, index, line.start)}>{line.start}</button>
         </td>
         <td className={classes}>
-          <ContentEditable text={line.text.trim()} start={line.start} end={line.end} onChange={this.handleTextChangeFor(line.key)} time={this.state.time} />
+          <ContentEditable text={line.text.trim()} start={line.start} end={line.end} onChange={this.handleTextChangeFor(line.key, index, line.order)} time={this.state.time} />
         </td>
         <td className="bottom">
           <button onClick={this.setEndFor(line.key, index, line.end)}>{line.end}</button>
@@ -144,8 +171,10 @@ var Transcript = React.createClass({
       </tr>
     );
   },
-      
+  
   render: function() {
+    this.lines = _.sortBy(this.state.lines, 'order');
+    
     return (
       <article className={this.props.lang + ' transcript'}>
         <div className="box stripes pace-hide" ref="box">
@@ -157,7 +186,7 @@ var Transcript = React.createClass({
         </header>
         <table>
           <tbody>
-            {this.state.lines.map(this.createLine)}
+            {this.lines.map(this.createLine)}
           </tbody>
         </table>
       </article>
