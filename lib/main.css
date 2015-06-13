@@ -1,5 +1,10 @@
+body {
+  font-family: 'Fira Sans', sans-serif;
+}
+
 .box {
   width: 200px;
   height: 200px;
   background-color: #cccccc;
+  font-family: 'Fira Mono';
 }

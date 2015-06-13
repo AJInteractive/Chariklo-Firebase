@@ -2,8 +2,37 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
+    <script src="jspm_packages/github/HubSpot/pace@1.0.2/pace.js"></script>
+    <style>
+      .pace {
+        -webkit-pointer-events: none;
+        pointer-events: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      .pace-inactive {
+        display: none;
+      }
+
+      .pace .pace-progress {
+/*        background-color: rgba(0, 0, 0, 0.19999999999999996);*/
+        background-color: #ffffff;
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScyMCcgdmlld0JveD0nMCAwIDUgMTAnPgoJPHJlY3Qgd2lkdGg9JzExMCUnIHg9Jy01JScgeT0nLTUlJyBoZWlnaHQ9JzExMCUnIGZpbGw9JyNmZmZmZmYnLz4KCTxsaW5lIHgxPSctMicgeTE9JzEnIHgyPSc3JyB5Mj0nMTAnIHN0cm9rZT0nI2RkZGRkZCcgc3Ryb2tlLXdpZHRoPScuNScvPgoJPGxpbmUgeDE9Jy0yJyB5MT0nNicgeDI9JzcnIHkyPScxNScgc3Ryb2tlPScjZGRkZGRkJyBzdHJva2Utd2lkdGg9Jy41Jy8+Cgk8bGluZSB4MT0nLTInIHkxPSctNCcgeDI9JzcnIHkyPSc1JyBzdHJva2U9JyNkZGRkZGQnIHN0cm9rZS13aWR0aD0nLjUnLz4KPC9zdmc+');
+        position: fixed;
+        z-index: -1;
+        top: 0;
+        right: 100%;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
     <script src="jspm_packages/system.js"></script>
     <script src="config.js"></script>
+    <script>
+      System.import('lib/main');
+    </script>
   </head>
   <body>
     <div class="box">
@@ -12,8 +41,5 @@
     
     <main id="root"></main>
 
-    <script>
-      System.import('lib/main');
-    </script>
   </body>
 </html>

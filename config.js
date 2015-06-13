@@ -16,6 +16,7 @@ System.config({
 
 System.config({
   "map": {
+    "HubSpot/pace.git": "github:HubSpot/pace@1.0.2",
     "babel": "npm:babel-core@5.5.6",
     "babel-runtime": "npm:babel-runtime@5.5.6",
     "components/jquery": "github:components/jquery@2.1.4",
@@ -23,6 +24,7 @@ System.config({
     "css": "npm:jspm-loader-css@0.1.1",
     "dat-gui": "bower:dat-gui@0.5.1",
     "firebase": "npm:firebase@2.2.7",
+    "font": "github:systemjs/system-font@0.1.0",
     "interact.js": "npm:interact.js@1.2.4",
     "jquery": "github:components/jquery@2.1.4",
     "jsx": "github:floatdrop/plugin-jsx@1.1.0",
@@ -31,6 +33,7 @@ System.config({
     "normalize.css": "github:necolas/normalize.css@3.0.3",
     "react": "npm:react@0.14.0-alpha3",
     "reactfire": "npm:reactfire@0.4.0",
+    "webfont": "github:components/webfontloader@1.6.3",
     "github:floatdrop/plugin-jsx@1.1.0": {
       "react-tools": "npm:react-tools@0.13.3"
     },
