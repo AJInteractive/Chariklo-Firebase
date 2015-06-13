@@ -115,9 +115,13 @@ var Transcript = React.createClass({
         //
       } else {           
         var lineRef = self.firebaseRefs.lines.child(key);
-        lineRef.update({
-          text: event.target.text
-        });
+        if (event.target.text == '') {
+          lineRef.remove();
+        } else {
+          lineRef.update({
+            text: event.target.text
+          });
+        }
       }
     };
   },
@@ -130,7 +134,10 @@ var Transcript = React.createClass({
         lineRef.update({
           start: self.state.time
         });
-      } else self.media.currentTime = start/1000;
+      } else {
+        self.media.currentTime = start/1000;
+        self.media.play();
+      }
     };
   },
   
@@ -149,7 +156,10 @@ var Transcript = React.createClass({
             start: self.state.time
           });
         }
-      } else self.media.currentTime = end/1000;
+      } else {
+        self.media.currentTime = end/1000;
+        self.media.play();
+      }
     };
   },
   
@@ -158,7 +168,7 @@ var Transcript = React.createClass({
     if (line.end < this.state.time && line.end > 0) classes += ' past';
     
     return (
-      <tr key={line.key} className={line.para?'paragraph':'line'}>
+      <tr key={line.key + classes} className={line.para?'paragraph':'line'}>
         <td className="baseline">
           <button onClick={this.setStartFor(line.key, index, line.start)}>{line.start}</button>
         </td>
@@ -182,7 +192,7 @@ var Transcript = React.createClass({
           <video ref="media" controls src={this.state.video}></video>
         </div>
         <header>
-          <h1>Transcript {this.props.id}-{this.props.lang}</h1>
+          <h1>Transcript {this.props.id}-{this.props.lang} {this.props.suffix}</h1>
         </header>
         <table>
           <tbody>
