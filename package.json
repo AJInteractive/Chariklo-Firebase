@@ -3,6 +3,7 @@
     "directories": {},
     "dependencies": {
       "HubSpot/pace.git": "github:HubSpot/pace@^1.0.2",
+      "X3TechnologyGroup/VideoFrame": "github:X3TechnologyGroup/VideoFrame@master",
       "components/jquery": "github:components/jquery@^2.1.4",
       "components/webfontloader": "github:components/webfontloader@^1.6.3",
       "css": "npm:jspm-loader-css@^0.1.1",
@@ -16,8 +17,12 @@
       "lodash-node": "npm:lodash-node@^3.9.3",
       "normalize.css": "github:necolas/normalize.css@^3.0.3",
       "react": "npm:react@^0.14.0-alpha3",
+      "react-contenteditable": "npm:react-contenteditable@^0.0.2",
+      "react-json-inspector": "npm:react-json-inspector@^5.1.0",
+      "react-router": "npm:react-router@^1.0.0-alpha2",
       "reactfire": "npm:reactfire@^0.4.0",
       "systemjs/system-font": "github:systemjs/system-font@^0.1.0",
+      "tiny-react-router": "npm:tiny-react-router@^1.0.1",
       "typekit/webfontloader": "github:typekit/webfontloader@^1.6.3",
       "webfont": "github:components/webfontloader@^1.6.3"
     },
@@ -32,6 +37,10 @@
       },
       "bower:dat-gui@0.5.1": {
         "main": "build/dat.gui.js",
+        "format": "global"
+      },
+      "github:X3TechnologyGroup/VideoFrame@master": {
+        "main": "VideoFrame.js",
         "format": "global"
       }
     }

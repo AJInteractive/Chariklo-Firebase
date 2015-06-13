@@ -27,7 +27,7 @@
       }
       
       .pace .pace-progress, .stripes {     
-        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScyMCcgdmlld0JveD0nMCAwIDUgMTAnPgoJPHJlY3Qgd2lkdGg9JzExMCUnIHg9Jy01JScgeT0nLTUlJyBoZWlnaHQ9JzExMCUnIGZpbGw9JyNmZmZmZmYnLz4KCTxsaW5lIHgxPSctMicgeTE9JzEnIHgyPSc3JyB5Mj0nMTAnIHN0cm9rZT0nI2RkZGRkZCcgc3Ryb2tlLXdpZHRoPScuNScvPgoJPGxpbmUgeDE9Jy0yJyB5MT0nNicgeDI9JzcnIHkyPScxNScgc3Ryb2tlPScjZGRkZGRkJyBzdHJva2Utd2lkdGg9Jy41Jy8+Cgk8bGluZSB4MT0nLTInIHkxPSctNCcgeDI9JzcnIHkyPSc1JyBzdHJva2U9JyNkZGRkZGQnIHN0cm9rZS13aWR0aD0nLjUnLz4KPC9zdmc+');
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPElEQVQYV2NkIA6kMRKhLo2BgWEWIYVgRSDD8CmEK8KnEEURLoUYirApxKoIXSFORcgK8SqCKSSoCKQQAAmWCXFW00SXAAAAAElFTkSuQmCC');
       }
       
       .pace-running .pace-hide {
@@ -37,7 +37,7 @@
     <script src="jspm_packages/system.js"></script>
     <script src="config.js"></script>
     <script>
-      System.import('lib/main');
+      System.import('lib/main.jsx!');
     </script>
   </head>
   <body>
@@ -46,6 +46,12 @@
     </div>
     
     <main id="root"></main>
+    
+    <section id="ingest">
+      <h1>Ingest</h1>
+      <textarea></textarea>
+      <button>process</button>
+    </section>
 
   </body>
 </html>

@@ -2,11 +2,8 @@ body {
   font-family: 'Fira Sans', sans-serif;
 }
 
-.pace-running .box {
-  display: none;
-}
-
 .box {
+  position: fixed;
   width: 200px;
   height: 200px;
   font-family: 'Fira Mono';
