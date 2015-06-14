@@ -184,8 +184,10 @@ var Transcript = React.createClass({
     } else {
       return (
         <tr key={line.key + classes} className={line.para?'paragraph':'line'}>
+          <td className="baseline"><input type="checkbox" value={index + '|' + line.key} /></td>
           <td className="baseline">
             <button onClick={this.setStartFor(line.key, index, line.start)}>{line.start}</button>
+            <span>{line.start}</span>
           </td>
           <td className={classes}>
             <ContentEditable text={line.text.trim()} start={line.start} end={line.end} onChange={this.handleTextChangeFor(line.key, index, line.order)} time={this.state.time} />
@@ -235,6 +237,56 @@ var Transcript = React.createClass({
       frameRate: 30
     });
     this.videoFrame.stopListen();
+    
+    this.controls = {
+      speed: self.media.playbackRate,
+      clear: function() {
+        var $boxes = $('.transcript input[type="checkbox"]');
+        $boxes.each(function(i, e){
+          e.checked = false;
+        });
+      },
+      merge: function() {
+        var $boxes = $('.transcript input[type="checkbox"]');
+        
+        var checked = [];
+        for (var i = 0; i < $boxes.length; i++) {
+          if ($boxes.get(i).checked) checked.push($boxes.get(i));
+        }
+        
+        if (checked.length > 2) return alert('cannot merge more than two at once');
+        if (checked.length < 2) return alert('for merge you need two');
+        
+        var [a, p] = checked[0].value.split('|');
+        var [b, q] = checked[1].value.split('|');
+        
+        if (parseInt(a) + 1 != parseInt(b)) return alert('cannot merge non-adjacent lines');
+        
+        var pRef = self.firebaseRefs.lines.child(p);
+        var aRef = self.firebaseRefs.lines.child(q);
+        
+        var aLine = self.lines[a];
+        var bLine = self.lines[b];
+        
+        pRef.update({
+          end: bLine.end,
+          text: aLine.text + ' ' + bLine.text 
+        });
+        
+        qRef.remove();
+        
+        $boxes.each(function(i, e){
+          e.checked = false;
+        });
+      }
+    };
+
+    this.speed = gui.add(this.controls, 'speed').min(1).max(4).step(1);
+    this.speed.onChange(function(value) {
+      self.media.playbackRate = value;
+    });
+    gui.add(this.controls, 'clear');
+    gui.add(this.controls, 'merge');
     
     /////////    
     function dragMoveListener (event) {

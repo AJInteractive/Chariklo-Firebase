@@ -71,6 +71,10 @@ td.baseline {
   position: relative;
 }
 
+td.baseline > span {
+  color: transparent;
+}
+
 td.baseline button {
   top: 3px;
   right: 3px;
