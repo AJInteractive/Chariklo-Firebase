@@ -134,7 +134,7 @@ var Transcript = React.createClass({
         lineRef.update({
           start: self.state.time
         });
-      } else {
+      } else if (start != -1) {
         self.media.currentTime = start/1000;
         self.media.play();
       }
@@ -156,7 +156,7 @@ var Transcript = React.createClass({
             start: self.state.time
           });
         }
-      } else {
+      } else if (end != -1) {
         self.media.currentTime = end/1000;
         self.media.play();
       }
@@ -167,19 +167,35 @@ var Transcript = React.createClass({
     var classes = 'top';
     if (line.end < this.state.time && line.end > 0) classes += ' past';
     
-    return (
-      <tr key={line.key + classes} className={line.para?'paragraph':'line'}>
-        <td className="baseline">
-          <button onClick={this.setStartFor(line.key, index, line.start)}>{line.start}</button>
-        </td>
-        <td className={classes}>
-          <ContentEditable text={line.text.trim()} start={line.start} end={line.end} onChange={this.handleTextChangeFor(line.key, index, line.order)} time={this.state.time} />
-        </td>
-        <td className="bottom">
-          <button onClick={this.setEndFor(line.key, index, line.end)}>{line.end}</button>
-        </td>
-      </tr>
-    );
+    if (this.props.lang == 'arabic') {
+      return (
+        <tr key={line.key + classes} className={line.para?'paragraph':'line'}>
+          <td className="bottom">
+            <button onClick={this.setEndFor(line.key, index, line.end)}>{line.end}</button>
+          </td>
+          <td className={classes}>
+            <ContentEditable text={line.text.trim()} start={line.start} end={line.end} onChange={this.handleTextChangeFor(line.key, index, line.order)} time={this.state.time} />
+          </td>
+          <td className="baseline">
+            <button onClick={this.setStartFor(line.key, index, line.start)}>{line.start}</button>
+          </td>
+        </tr>
+      );
+    } else {
+      return (
+        <tr key={line.key + classes} className={line.para?'paragraph':'line'}>
+          <td className="baseline">
+            <button onClick={this.setStartFor(line.key, index, line.start)}>{line.start}</button>
+          </td>
+          <td className={classes}>
+            <ContentEditable text={line.text.trim()} start={line.start} end={line.end} onChange={this.handleTextChangeFor(line.key, index, line.order)} time={this.state.time} />
+          </td>
+          <td className="bottom">
+            <button onClick={this.setEndFor(line.key, index, line.end)}>{line.end}</button>
+          </td>
+        </tr>
+      );
+    }
   },
   
   render: function() {

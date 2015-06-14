@@ -60,6 +60,12 @@ td.bottom button {
   position: absolute;
 }
 
+.arabic td.bottom button {
+  bottom: 0;
+  right: 3px;
+  position: absolute;
+}
+
 td.baseline {
   vertical-align: baseline;
   position: relative;
@@ -68,6 +74,12 @@ td.baseline {
 td.baseline button {
   top: 3px;
   right: 3px;
+  position: absolute;
+}
+
+.arabic td.baseline button {
+  top: 3px;
+  left: 3px;
   position: absolute;
 }
 
