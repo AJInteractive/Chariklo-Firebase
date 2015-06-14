@@ -136,7 +136,7 @@ var Transcript = React.createClass({
         });
       } else if (start != -1) {
         self.media.currentTime = start/1000;
-        self.media.play();
+        self.media.pause();
       }
     };
   },
@@ -158,7 +158,7 @@ var Transcript = React.createClass({
         }
       } else if (end != -1) {
         self.media.currentTime = end/1000;
-        self.media.play();
+        self.media.pause();
       }
     };
   },
