@@ -178,7 +178,9 @@ var Transcript = React.createClass({
           </td>
           <td className="baseline">
             <button onClick={this.setStartFor(line.key, index, line.start)}>{line.start}</button>
+            <span>{line.start}</span>
           </td>
+          <td className="baseline"><input type="checkbox" value={index + '|' + line.key} /></td>
         </tr>
       );
     } else {
@@ -263,7 +265,7 @@ var Transcript = React.createClass({
         if (parseInt(a) + 1 != parseInt(b)) return alert('cannot merge non-adjacent lines');
         
         var pRef = self.firebaseRefs.lines.child(p);
-        var aRef = self.firebaseRefs.lines.child(q);
+        var qRef = self.firebaseRefs.lines.child(q);
         
         var aLine = self.lines[a];
         var bLine = self.lines[b];
