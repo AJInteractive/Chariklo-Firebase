@@ -32,6 +32,7 @@ System.config({
     "liabru/dat-gui-light-theme.git": "github:liabru/dat-gui-light-theme@master",
     "lodash-node": "npm:lodash-node@3.9.3",
     "normalize.css": "github:necolas/normalize.css@3.0.3",
+    "raven-js": "npm:raven-js@1.1.18",
     "react": "npm:react@0.14.0-alpha3",
     "react-contenteditable": "npm:react-contenteditable@0.0.2",
     "react-json-inspector": "npm:react-json-inspector@5.1.0",
@@ -490,6 +491,10 @@ System.config({
     "npm:randombytes@2.0.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:raven-js@1.1.18": {
+      "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:react-contenteditable@0.0.2": {

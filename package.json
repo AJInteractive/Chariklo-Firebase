@@ -16,6 +16,7 @@
       "liabru/dat-gui-light-theme.git": "github:liabru/dat-gui-light-theme@master",
       "lodash-node": "npm:lodash-node@^3.9.3",
       "normalize.css": "github:necolas/normalize.css@^3.0.3",
+      "raven-js": "npm:raven-js@^1.1.18",
       "react": "npm:react@^0.14.0-alpha3",
       "react-contenteditable": "npm:react-contenteditable@^0.0.2",
       "react-json-inspector": "npm:react-json-inspector@^5.1.0",
