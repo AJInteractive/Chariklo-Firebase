@@ -1,11 +1,12 @@
 import $ from 'jquery';
 import React from 'react';
+import _ from 'lodash-node';
 
 var ContentEditable = React.createClass({
   
   html: '',
   
-  render: function(){
+  render: function() {
     
     var html = '<p>';
     var words = [];
@@ -23,7 +24,7 @@ var ContentEditable = React.createClass({
       var classes = '';
       if (words[i].time < 0 || isNaN(words[i].time)) classes += ' unedited';
       if (words[i].time > -1 && words[i].time < this.props.time) classes += ' past';
-      html += '<span title="' + words[i].time + '" class="' + classes + '">' + tokens[i] + ' </span>';
+      html += '<span title="' + words[i].time + '" class="' + classes + '">' + _.escape(tokens[i]) + ' </span>';
     }
     
     html += '</p>';    
