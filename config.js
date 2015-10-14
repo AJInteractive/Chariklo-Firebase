@@ -1,3 +1,5 @@
+/*eslint-disable */
+
 System.config({
   "baseURL": "/",
   "transpiler": "babel",
@@ -635,4 +637,3 @@ System.config({
     }
   }
 });
-

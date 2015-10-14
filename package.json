@@ -47,6 +47,9 @@
     }
   },
   "devDependencies": {
+    "eslint": "^1.6.0",
+    "eslint-config-airbnb": "^0.1.0",
+    "eslint-plugin-react": "^3.5.1",
     "jspm": "^0.15.7",
     "jspm-bower-endpoint": "^0.3.2"
   }
