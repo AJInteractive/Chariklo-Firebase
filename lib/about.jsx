@@ -1,7 +1,6 @@
 import React from 'react';
 
-var About = React.createClass({
-  
+const About = React.createClass({
   render: function() {
     return (
       <article>
@@ -9,8 +8,7 @@ var About = React.createClass({
         <p>Lorem ipsum</p>
       </article>
     );
-  }
-  
+  },
 });
 
 export default About;

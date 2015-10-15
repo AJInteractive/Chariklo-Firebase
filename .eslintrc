@@ -3,10 +3,9 @@
   "rules": {
     "id-length": 1,
     "handle-callback-err": 2,
-    "prefer-template": 2,
     "react/jsx-boolean-value": [2, "always"]
   },
   "globals": {
-    "ga": true
+    "gui": true
   }
 }

@@ -10,14 +10,14 @@ import interact from 'interact.js';
 import {VideoFrame} from 'X3TechnologyGroup/VideoFrame';
 
 ReactFireMixin._toArray = function(obj) {
-  var out = [];
+  let out = [];
   if (obj) {
     if (this._isArray(obj)) {
       out = obj;
-    } else if (typeof(obj) === "object") {
-      for (var key in obj) {
+    } else if (typeof(obj) === 'object') {
+      for (let key in obj) {
         if (obj.hasOwnProperty(key)) {
-          var val = obj[key];
+          const val = obj[key];
           val.key = key;
           out.push(val);
         }
@@ -27,7 +27,7 @@ ReactFireMixin._toArray = function(obj) {
   return out;
 };
 
-var Transcript = React.createClass({
+const Transcript = React.createClass({
   mixins: [ReactFireMixin],
 
   getInitialState: function() {
@@ -35,7 +35,7 @@ var Transcript = React.createClass({
       video: null,
       lines: [],
       time: 0,
-      smpte: ''
+      smpte: '',
     };
   },
 
@@ -50,7 +50,7 @@ var Transcript = React.createClass({
         this.firebaseRef.child('transcript-'
         + nextProps.id
         + '-' + nextProps.lang
-        + (nextProps.suffix?'-' + nextProps.suffix : '')
+        + (nextProps.suffix ? '-' + nextProps.suffix : '')
       ).orderByChild('sort'), 'lines');
     }
   },
@@ -61,7 +61,7 @@ var Transcript = React.createClass({
       this.firebaseRef.child('transcript-'
       + this.props.id
       + '-' + this.props.lang
-      + (this.props.suffix?'-' + this.props.suffix : '')
+      + (this.props.suffix ? '-' + this.props.suffix : '')
     ).orderByChild('sort'), 'lines');
 
     // var self = this;
@@ -87,27 +87,27 @@ var Transcript = React.createClass({
   },
 
   setStartFor: function(key, index, start) {
-    var self = this;
+    const self = this;
     return function(event) {
-      if (start != -1) {
-        self.media.currentTime = start/1000;
+      if (start !== -1) {
+        self.media.currentTime = start / 1000;
         self.media.play();
       }
     };
   },
 
   setEndFor: function(key, index, end) {
-    var self = this;
+    const self = this;
     return function(event) {
-      if (end != -1) {
-        self.media.currentTime = end/1000;
+      if (end !== -1) {
+        self.media.currentTime = end / 1000;
         self.media.play();
       }
     };
   },
 
   createLine: function(line, index) {
-    var classes = 'top';
+    let classes = 'top';
     if (line.end < this.state.time && line.end > 0) classes += ' past';
 
     // if (this.props.lang == 'arabic') {
@@ -127,21 +127,21 @@ var Transcript = React.createClass({
     //     </tr>
     //   );
     // } else {
-      return (
-        // <tr key={line.key + classes} className={line.para?'paragraph':'line'}>
-        //   <td className="baseline"><input type="checkbox" value={index + '|' + line.key} /></td>
-        //   <td className="baseline">
-        //     <button onClick={this.setStartFor(line.key, index, line.start)}>{line.start}</button>
-        //     <span>{line.start}</span>
-        //   </td>
-        //   <td className={classes}>
-            <Content text={line.text.trim()} start={line.start} end={line.end} time={this.state.time} />
-        //   </td>
-        //   <td className="bottom">
-        //     <button onClick={this.setEndFor(line.key, index, line.end)}>{line.end}</button>
-        //   </td>
-        // </tr>
-      );
+    return (
+      // <tr key={line.key + classes} className={line.para?'paragraph':'line'}>
+      //   <td className="baseline"><input type="checkbox" value={index + '|' + line.key} /></td>
+      //   <td className="baseline">
+      //     <button onClick={this.setStartFor(line.key, index, line.start)}>{line.start}</button>
+      //     <span>{line.start}</span>
+      //   </td>
+      //   <td className={classes}>
+          <Content text={line.text.trim()} start={line.start} end={line.end} time={this.state.time} />
+      //   </td>
+      //   <td className="bottom">
+      //     <button onClick={this.setEndFor(line.key, index, line.end)}>{line.end}</button>
+      //   </td>
+      // </tr>
+    );
     // }
   },
 
@@ -160,12 +160,11 @@ var Transcript = React.createClass({
   },
 
   componentDidMount: function() {
-
-    var self = this;
+    const self = this;
     this.media = React.findDOMNode(this.refs.media);
     this.mediaTimeupdate = function (event) {
-      var time = Math.round(1000*this.currentTime);
-      var smpte = '';
+      const time = Math.round(1000 * this.currentTime);
+      let smpte = '';
       if (self.videoFrame) smpte = self.videoFrame.toSMPTE();
       self.setState({time, smpte});
     };
@@ -185,57 +184,52 @@ var Transcript = React.createClass({
       self.media.playbackRate = value;
     });
 
+    function dragMoveListener(event) {
+      const target = event.target;
+      // keep the dragged position in the data-x/data-y attributes
+      let x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+      let y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-    /////////
-    function dragMoveListener (event) {
-        var target = event.target,
-            // keep the dragged position in the data-x/data-y attributes
-            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+      // translate the element
+      target.style.webkitTransform =
+      target.style.transform =
+        'translate(' + x + 'px, ' + y + 'px)';
 
-        // translate the element
-        target.style.webkitTransform =
-        target.style.transform =
-          'translate(' + x + 'px, ' + y + 'px)';
+      // update the posiion attributes
+      target.setAttribute('data-x', x);
+      target.setAttribute('data-y', y);
+    }
 
-        // update the posiion attributes
-        target.setAttribute('data-x', x);
-        target.setAttribute('data-y', y);
-      }
-
-      // this is used later in the resizing demo
-      window.dragMoveListener = dragMoveListener;
+    // this is used later in the resizing demo
+    window.dragMoveListener = dragMoveListener;
 
     interact('.box')
       .draggable({
-        onmove: window.dragMoveListener
+        onmove: window.dragMoveListener,
       })
       .resizable({
-        edges: { left: true, right: true, bottom: true, top: true }
+        edges: { left: true, right: true, bottom: true, top: true },
       })
       .on('resizemove', function (event) {
-        var target = event.target,
-            x = (parseFloat(target.getAttribute('data-x')) || 0),
-            y = (parseFloat(target.getAttribute('data-y')) || 0);
+        const target = event.target;
+        let  x = (parseFloat(target.getAttribute('data-x')) || 0);
+        let  y = (parseFloat(target.getAttribute('data-y')) || 0);
 
         // update the element's style
-        target.style.width  = event.rect.width + 'px';
+        target.style.width = event.rect.width + 'px';
         target.style.height = event.rect.height + 'px';
 
         // translate when resizing from top or left edges
         x += event.deltaRect.left;
         y += event.deltaRect.top;
 
-        target.style.webkitTransform = target.style.transform =
-            'translate(' + x + 'px,' + y + 'px)';
+        target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
 
         target.setAttribute('data-x', x);
         target.setAttribute('data-y', y);
         // target.textContent = event.rect.width + '×' + event.rect.height;
       });
-    /////////
-  }
-
+  },
 });
 
 

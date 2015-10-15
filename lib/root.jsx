@@ -1,16 +1,14 @@
 import React from 'react';
 
-var Root = React.createClass({
-  
+const Root = React.createClass({
   render: function() {
     return (
       <article>
-        <h1>ROOT</h1>
+        <h1>Transcript aligner</h1>
         <p>^_^</p>
       </article>
     );
-  }
-  
+  },
 });
 
 export default Root;

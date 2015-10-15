@@ -10,14 +10,14 @@ import interact from 'interact.js';
 import {VideoFrame} from 'X3TechnologyGroup/VideoFrame';
 
 ReactFireMixin._toArray = function(obj) {
-  var out = [];
+  let out = [];
   if (obj) {
     if (this._isArray(obj)) {
       out = obj;
-    } else if (typeof(obj) === "object") {
-      for (var key in obj) {
+    } else if (typeof(obj) === 'object') {
+      for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
-          var val = obj[key];
+          const val = obj[key];
           val.key = key;
           out.push(val);
         }
@@ -27,43 +27,44 @@ ReactFireMixin._toArray = function(obj) {
   return out;
 };
 
-var Transcript = React.createClass({
+const Transcript = React.createClass({
   mixins: [ReactFireMixin],
-  
+
   getInitialState: function() {
     return {
       video: null,
       lines: [],
       time: 0,
-      smpte: ''
+      smpte: '',
+      zero: 0,
     };
   },
-  
+
   // shouldComponentUpdate: function(nextProps, nextState) {
   //   return (nextProps.id !== this.props.id || nextProps.lang !== this.props.lang);
   // },
-  
+
   componentWillReceiveProps: function(nextProps) {
     if (nextProps.id !== this.props.id || nextProps.lang !== this.props.lang) {
       this.unbind('lines');
       this.bindAsArray(
-        this.firebaseRef.child('transcript-' 
-        + nextProps.id 
+        this.firebaseRef.child('transcript-'
+        + nextProps.id
         + '-' + nextProps.lang
-        + (nextProps.suffix?'-' + nextProps.suffix : '')
+        + (nextProps.suffix ? '-' + nextProps.suffix : '')
       ).orderByChild('sort'), 'lines');
     }
   },
-  
+
   componentWillMount: function() {
     this.firebaseRef = new Firebase('https://chariklo.firebaseio.com/');
     this.bindAsArray(
-      this.firebaseRef.child('transcript-' 
-      + this.props.id 
+      this.firebaseRef.child('transcript-'
+      + this.props.id
       + '-' + this.props.lang
-      + (this.props.suffix?'-' + this.props.suffix : '')
+      + (this.props.suffix ? '-' + this.props.suffix : '')
     ).orderByChild('sort'), 'lines');
-    
+
     var self = this;
     var videosRef = this.firebaseRef.child('videos-' + this.props.lang);
     videosRef.orderByChild('id').startAt(this.props.id).endAt(this.props.id).once('value', function(snapshot) {
@@ -74,42 +75,42 @@ var Transcript = React.createClass({
           var video = data['vimeo sd'];
           if (video == '') video = data['vimeo hd'];
           self.setState({video});
-        } 
+        }
       }
     });
   },
-  
+
   componentWillUnmount: function() {
     // this.unbind('lines');
     if (this.media) {
       this.media.removeEventListener('timeupdate', this.mediaTimeupdate);
     }
   },
-    
+
   setStartFor: function(key, index, start) {
     var self = this;
-    return function(event) {      
+    return function(event) {
       if (start != -1) {
-        self.media.currentTime = start/1000;
+        self.media.currentTime = start / 1000;
         self.media.play();
       }
     };
   },
-  
+
   setEndFor: function(key, index, end) {
-    var self = this;  
-    return function(event) {     
+    var self = this;
+    return function(event) {
       if (end != -1) {
-        self.media.currentTime = end/1000;
+        self.media.currentTime = end / 1000;
         self.media.play();
       }
     };
   },
-  
+
   createLine: function(line, index) {
     var classes = 'top';
     if (line.end < this.state.time && line.end > 0) classes += ' past';
-    
+
     if (this.props.lang == 'arabic') {
       return (
         <tr key={line.key + classes} className={line.para?'paragraph':'line'}>
@@ -131,27 +132,27 @@ var Transcript = React.createClass({
         <tr key={line.key + classes} className={line.para?'paragraph':'line'}>
           <td className="baseline"><input type="checkbox" value={index + '|' + line.key} /></td>
           <td className="baseline">
-            <button onClick={this.setStartFor(line.key, index, line.start)}>{line.start}</button>
+            <button onClick={this.setStartFor(line.key, index, line.start + this.state.zero)}>{line.start + this.state.zero}</button>
             <span>{line.start}</span>
           </td>
           <td className={classes}>
-            <Content text={line.text.trim()} start={line.start} end={line.end} time={this.state.time} />
+            <Content text={line.text.trim()} start={line.start} end={line.end} time={this.state.time} para={line.para} />
           </td>
           <td className="bottom">
-            <button onClick={this.setEndFor(line.key, index, line.end)}>{line.end}</button>
+            <button onClick={this.setEndFor(line.key, index, line.end + this.state.zero)}>{line.end + this.state.zero}</button>
           </td>
         </tr>
       );
     }
   },
-  
+
   render: function() {
     this.lines = _.sortBy(this.state.lines, 'order');
-    
+
     return (
       <article className={this.props.lang + ' transcript'}>
         <div className="box stripes pace-hide" ref="box">
-          <span>{this.state.smpte}</span>
+          <span>{this.state.smpte} [{this.state.time}]</span>
           <video ref="media" controls src={this.state.video}></video>
         </div>
         <header>
@@ -165,26 +166,27 @@ var Transcript = React.createClass({
       </article>
     );
   },
-  
+
   componentDidMount: function() {
-    
-    var self = this;
-    this.media = React.findDOMNode(this.refs.media);    
-    this.mediaTimeupdate = function (event) {
-      var time = Math.round(1000*this.currentTime);
-      var smpte = '';
+    const self = this;
+    this.media = React.findDOMNode(this.refs.media);
+
+    this.mediaTimeupdate = function(event) {
+      const time = Math.round(1000 * this.currentTime) - self.state.zero;
+      let smpte = '';
       if (self.videoFrame) smpte = self.videoFrame.toSMPTE();
       self.setState({time, smpte});
     };
     this.media.addEventListener('timeupdate', this.mediaTimeupdate);
-    
+
     this.videoFrame = window.VideoFrame({
-      frameRate: 30
+      frameRate: 30,
     });
     this.videoFrame.stopListen();
-    
+
     this.controls = {
       speed: self.media.playbackRate,
+      zero: self.state.zero ? self.state.zero : 0,
     };
 
     this.speed = gui.add(this.controls, 'speed').min(1).max(4).step(1);
@@ -192,8 +194,13 @@ var Transcript = React.createClass({
       self.media.playbackRate = value;
     });
 
-    
-    /////////    
+    this.zero = gui.add(this.controls, 'zero').min(0);
+    this.zero.onChange(function(value) {
+      self.setState({zero: value});
+    });
+
+
+    /////////
     function dragMoveListener (event) {
         var target = event.target,
             // keep the dragged position in the data-x/data-y attributes
@@ -242,7 +249,7 @@ var Transcript = React.createClass({
       });
     /////////
   }
-  
+
 });
 
 

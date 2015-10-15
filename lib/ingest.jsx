@@ -1,13 +1,13 @@
 import React from 'react';
 import Firebase from 'firebase';
 
-var Ingest = React.createClass({
-  
+const Ingest = React.createClass({
+
   getInitialState: function() {
     this.firebaseRef = new Firebase('https://chariklo.firebaseio.com/');
     return {value: ''};
   },
-  
+
   render: function() {
     return (
       <article className="ingest">
@@ -18,51 +18,149 @@ var Ingest = React.createClass({
           <br />
           <textarea ref="text" value={this.state.value} onChange={this._onChange}></textarea>
           <br />
-          <button onClick={this._onClick}>process</button>
+          <button onClick={this._onClickSBV}>process</button>
+          <hr />
+          <button onClick={this._onClickVideo}>import video data</button>
         </section>
       </article>
     );
   },
-  
+
   _onChange: function (event) {
     this.setState({value: event.target.value});
   },
-  
-  _onClick: function (event) {
-    var rows = this.state.value.split(/\n/);
-    var itemsRef = this.firebaseRef.child(this.props.id);
-    
-    var para = false;
-    for (var i = 0; i < rows.length; i++) {
-      if (rows[i] == '') {
+
+  // _onClickTXT: function (event) {
+  //   const rows = this.state.value.split(/\n/);
+  //   const itemsRef = this.firebaseRef.child(this.props.id);
+  //
+  //   let para = false;
+  //   for (let i = 0; i < rows.length; i++) {
+  //     if (rows[i] === '') {
+  //       para = true;
+  //       continue;
+  //     }
+  //
+  //     const itemRef = itemsRef.push({
+  //       start: -1,
+  //       end: -1,
+  //       para,
+  //       order: i * 1337,
+  //       text: rows[i],
+  //     });
+  //
+  //     console.log(itemRef.key());
+  //
+  //     para = false;
+  //   }
+  // },
+
+  _tc2ms: function (tc) {
+    const [hh, mm, ss, zz] = tc.split(':');
+    return parseInt(zz, 10) + parseInt(ss, 10) * 1000 + parseInt(mm, 10) * 60000 + parseInt(hh, 10) * 3600000;
+  },
+
+  _onClickSBV: function (event) {
+    console.log(1);
+
+    const rows = this.state.value.split(/\n(?=\d\d:)/);
+    const itemsRef = this.firebaseRef.child(this.props.id);
+
+    // console.log(rows);
+
+    const records = [];
+
+    let para = false;
+    let start = -1;
+    let end = -1;
+    let counter = 0;
+    for (let i = 0; i < rows.length; i++) {
+      if (rows[i] === '') {
         para = true;
         continue;
-      } 
-      
-      var itemRef = itemsRef.push({
-          start: -1,
-          end: -1,
-          para,
-          order: i*1337,
-          text: rows[i]
-      });
-      
-      console.log(itemRef.key());
-      
+      }
+
+      const lines = rows[i].split(/\n/);
+      const [startTC, endTC] = lines.shift().split(',');
+      const text = lines.join(' ').trim();
+
+      const zero = 1424209; //16000;
+      start = this._tc2ms(startTC) + zero;
+      end = this._tc2ms(endTC) + zero;
+
+      const data = {
+        start,
+        end,
+        para,
+        order: counter,
+        text,
+      };
+
+      // console.log(data);
+      // counter = counter + 1337;
+      // const itemRef = itemsRef.push(data);
+      // console.log(itemRef.key());
+
+      const tokens = text.split(' ');
+      const unit = (end - start) / tokens.length;
+
+      let k = 0;
+      let p = 0;
+      for (let j = 0; j < lines.length; j++) {
+        p = k + lines[j].split(' ').length;
+        const line = {
+          start: parseInt(start + k * unit, 10),
+          end: parseInt(start + p * unit, 10),
+          para: lines[j].charAt(0).toUpperCase() === lines[j].charAt(0),
+          order: counter,
+          text: lines[j].trim(),
+        };
+
+        // console.log(line);
+
+        // const itemRef = itemsRef.push(line);
+        // console.log(itemRef.key());
+
+        records.push(line)
+
+        k = p;
+        counter = counter + 1337;
+      }
+
       para = false;
+    }
+
+    // fold
+    const folded = [records[0]];
+    for (let r = 1; r < records.length; r++) {
+      const rec = records[r];
+      const prec = folded[folded.length - 1];
+
+      if (rec.para) {
+        folded.push(rec);
+        continue;
+      }
+
+      prec.end = rec.end;
+      prec.text += ' ' + rec.text;
+    }
+
+    // console.log(folded);
+
+    for (let f = 0; f < folded.length; f++) {
+      const itemRef = itemsRef.push(folded[f]);
+      console.log(itemRef.key());
     }
   },
 
-  // <hr />
-  // <button onClick={this._onClickVideo}>import video data</button>  
-  _onClickVideo: function (event) {    
-    // var videos = videosEnglish;
-    // var videosRef = this.firebaseRef.child('videos-english');
+  _onClickVideo: function (event) {
+    // const videos = videosBosnian;
+    // const videosRef = this.firebaseRef.child('videos-bosnian');
     //
     //
-    // for (var i = 1; i < videos.length; i++) {
+    // for (let i = 1; i < videos.length; i++) {
     //
-    //   var videoRef = videosRef.push({
+    //   const videoRef = videosRef.push({
     //     "id": '' + videos[i][0],
     //     "title": '' + videos[i][1],
     //     "youtube": '' + videos[i][2],
@@ -74,13 +172,147 @@ var Ingest = React.createClass({
     //   console.log(videoRef.key());
     // }
   }
-  
+
 });
 
 export default Ingest;
 
 
-////////
+/*eslint-disable */
+
+var videosBosnian = [
+  [
+      "id",
+      "title",
+      "youtube",
+      "mobile",
+      "vimeo sd",
+      "vimeo hd",
+      ""
+  ],
+    [
+        23,
+        'Stories from the Intifada 1',
+        'Pri\u010de Intifade 1',
+        '',
+        'https://player.vimeo.com/external/142124820.mobile.mp4?s=ee711f61e66f7498254fdd0f51eb753c&profile_id=116',
+        'https://player.vimeo.com/external/142124820.sd.mp4?s=06d778fc351790d95c61f5229fa23858&profile_id=112',
+        ''
+    ],
+    [
+        24,
+        'Stories from the Intifada 2',
+        'Pri\u010de Intifade 2',
+        '',
+        'https://player.vimeo.com/external/142124819.mobile.mp4?s=03a07412230abbd7162a9ffb6e4493e6&profile_id=116',
+        'https://player.vimeo.com/external/142124819.sd.mp4?s=452112ba0471f46f385d8e9c98b92a97&profile_id=112',
+        ''
+    ],
+    [
+        22,
+        'Return to Morocco',
+        'Povratak u Maroko',
+        '',
+        'https://player.vimeo.com/external/142124821.mobile.mp4?s=64f9d26a081d5c58cb2617e36863d981&profile_id=116',
+        'https://player.vimeo.com/external/142124821.sd.mp4?s=97c09efc15494bb933caae00280525e7&profile_id=112',
+        ''
+    ],
+    [
+        21,
+        'The Deportees',
+        'Deportovani',
+        '',
+        'https://player.vimeo.com/external/142124823.mobile.mp4?s=06406311f463e22ef8ef7ae9afe25d57&profile_id=116',
+        'https://player.vimeo.com/external/142124823.sd.mp4?s=22e255f93d353efae62552eac07ae679&profile_id=112',
+        ''
+    ],
+    [
+        26,
+        'Jerusalem Hitting Home',
+        'Jeruzalem: ru\u0161enje domova',
+        '',
+        'https://player.vimeo.com/external/142124822.mobile.mp4?s=28c8dfebd5cdaf962c7d75c9898ad11b&profile_id=116',
+        'https://player.vimeo.com/external/142124822.sd.mp4?s=81b9a8e6728de0b82ff0cbd51ce53e54&profile_id=112',
+        ''
+    ]
+];
+
+
+var videosTurkish = [
+    [
+        "id",
+        "title",
+        "youtube",
+        "mobile",
+        "vimeo sd",
+        "vimeo hd",
+        ""
+    ],
+    [
+        21,
+        'Deportees',
+        '',
+        '',
+        'https://player.vimeo.com/external/142108848.mobile.mp4?s=fc518d0cc85e5f3abd549fa0d557f507&profile_id=116',
+        'https://player.vimeo.com/external/142108848.sd.mp4?s=cdec2011c88fff0949e658e1e2f926a7&profile_id=112',
+        'https://player.vimeo.com/external/142108848.hd.mp4?s=a94041da0de4b0aca91146820a9af7b4&profile_id=113'
+    ],
+    [
+        22,
+        'Return to Morocco',
+        '',
+        '',
+        'https://player.vimeo.com/external/142108849.mobile.mp4?s=09ed7afbdc522f5ff845a215c717f490&profile_id=116',
+        'https://player.vimeo.com/external/142108849.sd.mp4?s=0e05c9160371b50c0328dd0eb8a20e95&profile_id=112',
+        'https://player.vimeo.com/external/142108849.hd.mp4?s=2f4646f17b8f69364669d69de4f918e8&profile_id=113'
+    ],
+    [
+        23,
+        'Stories from the Intifada p1',
+        '',
+        '',
+        'https://player.vimeo.com/external/142108847.mobile.mp4?s=4b8bdf25a9db0ee92ec4d409f07c4a59&profile_id=116',
+        'https://player.vimeo.com/external/142108847.sd.mp4?s=0100608d3d338ae29df2860a3fcd917e&profile_id=112',
+        'https://player.vimeo.com/external/142108847.hd.mp4?s=9c0adb96b1b456ac127e54478315c35a&profile_id=113'
+    ],
+    [
+        24,
+        'Stories from the Intifada p2',
+        '',
+        '',
+        'https://player.vimeo.com/external/142108846.mobile.mp4?s=6fc024c14104b051f1ecbe35ef9cd8ec&profile_id=116',
+        'https://player.vimeo.com/external/142108846.sd.mp4?s=a2b0cfe1b297745cfd14a29f5a511814&profile_id=112',
+        'https://player.vimeo.com/external/142108846.hd.mp4?s=9305ffe4ca8cacafb55b2fefaa080fd6&profile_id=113'
+    ],
+    [
+        25,
+        'Born in 1948',
+        '',
+        '',
+        'https://player.vimeo.com/external/142480739.mobile.mp4?s=30d4afd2163600c5f110242c6e381247&profile_id=116',
+        'https://player.vimeo.com/external/142480739.sd.mp4?s=279744fada390b84a889bf555ac03117&profile_id=112',
+        'https://player.vimeo.com/external/142480739.hd.mp4?s=c9b5b6d280c854002d71bdf1c7191aed&profile_id=113'
+    ],
+    [
+        26,
+        'Jerusalem Hitting Home',
+        '',
+        '',
+        'https://player.vimeo.com/external/142397473.mobile.mp4?s=1b0c70d604c385cafeadd30924f2626a&profile_id=116',
+        'https://player.vimeo.com/external/142397473.sd.mp4?s=eb1978b3b964dab165e235d9a62cb599&profile_id=112',
+        'https://player.vimeo.com/external/142397473.hd.mp4?s=8e6a81872e38db9c5eb4c59efa7f1430&profile_id=113'
+    ],
+    [
+        27,
+        'Divided Homeland',
+        '',
+        '',
+        'https://player.vimeo.com/external/142480740.mobile.mp4?s=d597c9d8b78d1287cc8e8fc0acb5044e&profile_id=116',
+        'https://player.vimeo.com/external/142480740.sd.mp4?s=3109d866b70575543943f482458a85ae&profile_id=112',
+        'https://player.vimeo.com/external/142480740.hd.mp4?s=af75712cf0bcfaff5dab48bfd066127f&profile_id=113'
+    ]
+];
+
 
 // var videosEnglish = [
 //     [
