@@ -84,7 +84,7 @@ const Ingest = React.createClass({
       const [startTC, endTC] = lines.shift().split(',');
       const text = lines.join(' ').trim();
 
-      const zero = 1424209; //16000;
+      const zero = 0;//1468229 - this._tc2ms('00:00:44:20'); //16000;
       start = this._tc2ms(startTC) + zero;
       end = this._tc2ms(endTC) + zero;
 
