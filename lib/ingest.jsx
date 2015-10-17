@@ -60,9 +60,15 @@ const Ingest = React.createClass({
     return parseInt(zz, 10) + parseInt(ss, 10) * 1000 + parseInt(mm, 10) * 60000 + parseInt(hh, 10) * 3600000;
   },
 
+  _mmss2ms: function (tc) {
+    const [mm, ss] = tc.split(':');
+    return parseInt(ss, 10) * 1000 + parseInt(mm, 10) * 60000;
+  },
+
   _onClickSBV: function (event) {
     console.log(1);
 
+    // const rows = this.state.value.split(/\n(?=\d\d:)/);
     const rows = this.state.value.split(/\n(?=\d\d:)/);
     const itemsRef = this.firebaseRef.child(this.props.id);
 
@@ -81,12 +87,19 @@ const Ingest = React.createClass({
       }
 
       const lines = rows[i].split(/\n/);
-      const [startTC, endTC] = lines.shift().split(',');
+      // const [startTC, endTC] = lines.shift().split(',');
+      const startTC = lines.shift();
       const text = lines.join(' ').trim();
 
       const zero = 0;//1468229 - this._tc2ms('00:00:44:20'); //16000;
-      start = this._tc2ms(startTC) + zero;
-      end = this._tc2ms(endTC) + zero;
+      // start = this._tc2ms(startTC) + zero;
+      // end = this._tc2ms(endTC) + zero;
+
+      start = this._mmss2ms(startTC) + zero;
+      end = start;
+      if (i < rows.length - 1) {
+        end = this._mmss2ms(rows[i + 1].split(/\n/).shift()) + zero;
+      }
 
       const data = {
         start,
@@ -96,7 +109,7 @@ const Ingest = React.createClass({
         text,
       };
 
-      // console.log(data);
+      console.log(data);
       // counter = counter + 1337;
       // const itemRef = itemsRef.push(data);
       // console.log(itemRef.key());
@@ -116,7 +129,7 @@ const Ingest = React.createClass({
           text: lines[j].trim(),
         };
 
-        // console.log(line);
+        console.log(line);
 
         // const itemRef = itemsRef.push(line);
         // console.log(itemRef.key());
@@ -145,7 +158,7 @@ const Ingest = React.createClass({
       prec.text += ' ' + rec.text;
     }
 
-    // console.log(folded);
+    console.log(folded);
 
     for (let f = 0; f < folded.length; f++) {
       const itemRef = itemsRef.push(folded[f]);
@@ -190,51 +203,53 @@ var videosBosnian = [
       "vimeo hd",
       ""
   ],
-    [
-        23,
-        'Stories from the Intifada 1',
-        'Pri\u010de Intifade 1',
-        '',
-        'https://player.vimeo.com/external/142124820.mobile.mp4?s=ee711f61e66f7498254fdd0f51eb753c&profile_id=116',
-        'https://player.vimeo.com/external/142124820.sd.mp4?s=06d778fc351790d95c61f5229fa23858&profile_id=112',
-        ''
-    ],
-    [
-        24,
-        'Stories from the Intifada 2',
-        'Pri\u010de Intifade 2',
-        '',
-        'https://player.vimeo.com/external/142124819.mobile.mp4?s=03a07412230abbd7162a9ffb6e4493e6&profile_id=116',
-        'https://player.vimeo.com/external/142124819.sd.mp4?s=452112ba0471f46f385d8e9c98b92a97&profile_id=112',
-        ''
-    ],
-    [
-        22,
-        'Return to Morocco',
-        'Povratak u Maroko',
-        '',
-        'https://player.vimeo.com/external/142124821.mobile.mp4?s=64f9d26a081d5c58cb2617e36863d981&profile_id=116',
-        'https://player.vimeo.com/external/142124821.sd.mp4?s=97c09efc15494bb933caae00280525e7&profile_id=112',
-        ''
-    ],
-    [
-        21,
-        'The Deportees',
-        'Deportovani',
-        '',
-        'https://player.vimeo.com/external/142124823.mobile.mp4?s=06406311f463e22ef8ef7ae9afe25d57&profile_id=116',
-        'https://player.vimeo.com/external/142124823.sd.mp4?s=22e255f93d353efae62552eac07ae679&profile_id=112',
-        ''
-    ],
-    [
-        26,
-        'Jerusalem Hitting Home',
-        'Jeruzalem: ru\u0161enje domova',
-        '',
-        'https://player.vimeo.com/external/142124822.mobile.mp4?s=28c8dfebd5cdaf962c7d75c9898ad11b&profile_id=116',
-        'https://player.vimeo.com/external/142124822.sd.mp4?s=81b9a8e6728de0b82ff0cbd51ce53e54&profile_id=112',
-        ''
-    ]
+  [15,"The price of Oslo 2","Cijena Osla: drugi dio","","http://player.vimeo.com/external/110128580.mobile.mp4?s=0e84a5982ae709daae97a674ce5f9963","http://player.vimeo.com/external/110128580.sd.mp4?s=3afbf306fcbfea47d6f704cdcc7e0252","http://player.vimeo.com/external/110128580.hd.mp4?s=0b2f0a61204844bd72b012c6b653bbe7"],
+  [20,"Al Nakba 4","Al Nakba: Palestinska katastrofa, Epizoda 4","","http://player.vimeo.com/external/110121999.mobile.mp4?s=6e0952b3840090ccffd4319dc05f5d56","http://player.vimeo.com/external/110121999.sd.mp4?s=40b3b4273361a1450ebe70e0dbcecc74","http://player.vimeo.com/external/110121999.hd.mp4?s=6d22706046eda0e76c00e4390ab47993"]
+    // [
+    //     23,
+    //     'Stories from the Intifada 1',
+    //     'Pri\u010de Intifade 1',
+    //     '',
+    //     'https://player.vimeo.com/external/142124820.mobile.mp4?s=ee711f61e66f7498254fdd0f51eb753c&profile_id=116',
+    //     'https://player.vimeo.com/external/142124820.sd.mp4?s=06d778fc351790d95c61f5229fa23858&profile_id=112',
+    //     ''
+    // ],
+    // [
+    //     24,
+    //     'Stories from the Intifada 2',
+    //     'Pri\u010de Intifade 2',
+    //     '',
+    //     'https://player.vimeo.com/external/142124819.mobile.mp4?s=03a07412230abbd7162a9ffb6e4493e6&profile_id=116',
+    //     'https://player.vimeo.com/external/142124819.sd.mp4?s=452112ba0471f46f385d8e9c98b92a97&profile_id=112',
+    //     ''
+    // ],
+    // [
+    //     22,
+    //     'Return to Morocco',
+    //     'Povratak u Maroko',
+    //     '',
+    //     'https://player.vimeo.com/external/142124821.mobile.mp4?s=64f9d26a081d5c58cb2617e36863d981&profile_id=116',
+    //     'https://player.vimeo.com/external/142124821.sd.mp4?s=97c09efc15494bb933caae00280525e7&profile_id=112',
+    //     ''
+    // ],
+    // [
+    //     21,
+    //     'The Deportees',
+    //     'Deportovani',
+    //     '',
+    //     'https://player.vimeo.com/external/142124823.mobile.mp4?s=06406311f463e22ef8ef7ae9afe25d57&profile_id=116',
+    //     'https://player.vimeo.com/external/142124823.sd.mp4?s=22e255f93d353efae62552eac07ae679&profile_id=112',
+    //     ''
+    // ],
+    // [
+    //     26,
+    //     'Jerusalem Hitting Home',
+    //     'Jeruzalem: ru\u0161enje domova',
+    //     '',
+    //     'https://player.vimeo.com/external/142124822.mobile.mp4?s=28c8dfebd5cdaf962c7d75c9898ad11b&profile_id=116',
+    //     'https://player.vimeo.com/external/142124822.sd.mp4?s=81b9a8e6728de0b82ff0cbd51ce53e54&profile_id=112',
+    //     ''
+    // ]
 ];
 
 

@@ -194,7 +194,7 @@ const Transcript = React.createClass({
       self.media.playbackRate = value;
     });
 
-    this.zero = gui.add(this.controls, 'zero').min(0);
+    this.zero = gui.add(this.controls, 'zero');
     this.zero.onChange(function(value) {
       self.setState({zero: value});
     });
