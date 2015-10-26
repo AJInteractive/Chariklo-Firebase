@@ -87,11 +87,112 @@ const Ingest = React.createClass({
       }
 
       const lines = rows[i].split(/\n/);
+      const [startTC, endTC] = lines.shift().split(',');
+      // const startTC = lines.shift();
+      const text = lines.join(' ').trim();
+
+      const zero = 1400000 + 32500;//1468229 - this._tc2ms('00:00:44:20'); //16000;
+      start = this._tc2ms(startTC) + zero;
+      end = this._tc2ms(endTC) + zero;
+
+      // start = this._mmss2ms(startTC) + zero;
+      // end = start;
+      // if (i < rows.length - 1) {
+      //   end = this._mmss2ms(rows[i + 1].split(/\n/).shift()) + zero;
+      // }
+
+      const data = {
+        start,
+        end,
+        para,
+        order: counter,
+        text,
+      };
+
+      console.log(data);
+      // counter = counter + 1337;
+      // const itemRef = itemsRef.push(data);
+      // console.log(itemRef.key());
+
+      const tokens = text.split(' ');
+      const unit = (end - start) / tokens.length;
+
+      let k = 0;
+      let p = 0;
+      for (let j = 0; j < lines.length; j++) {
+        p = k + lines[j].split(' ').length;
+        const line = {
+          start: parseInt(start + k * unit, 10),
+          end: parseInt(start + p * unit, 10),
+          para: lines[j].charAt(0).toUpperCase() === lines[j].charAt(0),
+          order: counter,
+          text: lines[j].trim(),
+        };
+
+        console.log(line);
+
+        // const itemRef = itemsRef.push(line);
+        // console.log(itemRef.key());
+
+        records.push(line)
+
+        k = p;
+        counter = counter + 1337;
+      }
+
+      para = false;
+    }
+
+    // fold
+    const folded = [records[0]];
+    for (let r = 1; r < records.length; r++) {
+      const rec = records[r];
+      const prec = folded[folded.length - 1];
+
+      if (rec.para) {
+        folded.push(rec);
+        continue;
+      }
+
+      prec.end = rec.end;
+      prec.text += ' ' + rec.text;
+    }
+
+    console.log(folded);
+
+    for (let f = 0; f < folded.length; f++) {
+      const itemRef = itemsRef.push(folded[f]);
+      console.log(itemRef.key());
+    }
+  },
+
+  _onClickSBVTurkish: function (event) {
+    console.log(1);
+
+    // const rows = this.state.value.split(/\n(?=\d\d:)/);
+    const rows = this.state.value.split(/\n(?=\d\d:)/);
+    const itemsRef = this.firebaseRef.child(this.props.id);
+
+    // console.log(rows);
+
+    const records = [];
+
+    let para = false;
+    let start = -1;
+    let end = -1;
+    let counter = 0;
+    for (let i = 0; i < rows.length; i++) {
+      if (rows[i] === '') {
+        para = true;
+        continue;
+      }
+
+      const lines = rows[i].split(/\n/);
       // const [startTC, endTC] = lines.shift().split(',');
       const startTC = lines.shift();
       const text = lines.join(' ').trim();
 
-      const zero = 0;//1468229 - this._tc2ms('00:00:44:20'); //16000;
+      const zero =0;//1468229 - this._tc2ms('00:00:44:20'); //16000;
       // start = this._tc2ms(startTC) + zero;
       // end = this._tc2ms(endTC) + zero;
 
@@ -204,9 +305,11 @@ var videosBosnian = [
       ""
   ],
 
-  [25,"Born in 48","Rođene '48-e","","https://player.vimeo.com/external/143459104.mobile.mp4?s=aaa325050a0d4bb086c90705135be40d&profile_id=116","https://player.vimeo.com/external/143459104.sd.mp4?s=c914616351697cbd111910d866d25219&profile_id=112","https://player.vimeo.com/external/143459104.hd.mp4?s=874e4ec0ac3965e8d25209793e521f0b&profile_id=113"],
+  [125,"Born in 48","Rođene '48-e","","https://player.vimeo.com/external/143461251.mobile.mp4?s=92a621d2956fc5556f45a62520327725&profile_id=116","https://player.vimeo.com/external/143461251.sd.mp4?s=8d9751c7899cd5d5391750c8daf6c24a&profile_id=112","https://player.vimeo.com/external/143461251.hd.mp4?s=3fca831541bbfccec36176a619f7931c&profile_id=113"],
 
-  [27,"Palestine Divided","Podijeljena Palestina","","https://player.vimeo.com/external/143459104.mobile.mp4?s=aaa325050a0d4bb086c90705135be40d&profile_id=116","https://player.vimeo.com/external/143459104.sd.mp4?s=c914616351697cbd111910d866d25219&profile_id=112",""],
+  // [25,"Born in 48","Rođene '48-e","","https://player.vimeo.com/external/143459104.mobile.mp4?s=aaa325050a0d4bb086c90705135be40d&profile_id=116","https://player.vimeo.com/external/143459104.sd.mp4?s=c914616351697cbd111910d866d25219&profile_id=112","https://player.vimeo.com/external/143459104.hd.mp4?s=874e4ec0ac3965e8d25209793e521f0b&profile_id=113"],
+
+  // [27,"Palestine Divided","Podijeljena Palestina","","https://player.vimeo.com/external/143459104.mobile.mp4?s=aaa325050a0d4bb086c90705135be40d&profile_id=116","https://player.vimeo.com/external/143459104.sd.mp4?s=c914616351697cbd111910d866d25219&profile_id=112",""],
 
   // [15,"The price of Oslo 2","Cijena Osla: drugi dio","","http://player.vimeo.com/external/110128580.mobile.mp4?s=0e84a5982ae709daae97a674ce5f9963","http://player.vimeo.com/external/110128580.sd.mp4?s=3afbf306fcbfea47d6f704cdcc7e0252","http://player.vimeo.com/external/110128580.hd.mp4?s=0b2f0a61204844bd72b012c6b653bbe7"],
   // [20,"Al Nakba 4","Al Nakba: Palestinska katastrofa, Epizoda 4","","http://player.vimeo.com/external/110121999.mobile.mp4?s=6e0952b3840090ccffd4319dc05f5d56","http://player.vimeo.com/external/110121999.sd.mp4?s=40b3b4273361a1450ebe70e0dbcecc74","http://player.vimeo.com/external/110121999.hd.mp4?s=6d22706046eda0e76c00e4390ab47993"]
