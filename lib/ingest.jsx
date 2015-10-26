@@ -167,23 +167,23 @@ const Ingest = React.createClass({
   },
 
   _onClickVideo: function (event) {
-    // const videos = videosBosnian;
-    // const videosRef = this.firebaseRef.child('videos-bosnian');
-    //
-    //
-    // for (let i = 1; i < videos.length; i++) {
-    //
-    //   const videoRef = videosRef.push({
-    //     "id": '' + videos[i][0],
-    //     "title": '' + videos[i][1],
-    //     "youtube": '' + videos[i][2],
-    //     "mobile": '' + videos[i][3],
-    //     "vimeo sd": '' + videos[i][4],
-    //     "vimeo hd": '' + videos[i][5]
-    //   });
-    //
-    //   console.log(videoRef.key());
-    // }
+    const videos = videosBosnian;
+    const videosRef = this.firebaseRef.child('videos-bosnian');
+
+
+    for (let i = 1; i < videos.length; i++) {
+
+      const videoRef = videosRef.push({
+        "id": '' + videos[i][0],
+        "title": '' + videos[i][1],
+        "youtube": '' + videos[i][2],
+        "mobile": '' + videos[i][3],
+        "vimeo sd": '' + videos[i][4],
+        "vimeo hd": '' + videos[i][5]
+      });
+
+      console.log(videoRef.key());
+    }
   }
 
 });
@@ -203,8 +203,14 @@ var videosBosnian = [
       "vimeo hd",
       ""
   ],
-  [15,"The price of Oslo 2","Cijena Osla: drugi dio","","http://player.vimeo.com/external/110128580.mobile.mp4?s=0e84a5982ae709daae97a674ce5f9963","http://player.vimeo.com/external/110128580.sd.mp4?s=3afbf306fcbfea47d6f704cdcc7e0252","http://player.vimeo.com/external/110128580.hd.mp4?s=0b2f0a61204844bd72b012c6b653bbe7"],
-  [20,"Al Nakba 4","Al Nakba: Palestinska katastrofa, Epizoda 4","","http://player.vimeo.com/external/110121999.mobile.mp4?s=6e0952b3840090ccffd4319dc05f5d56","http://player.vimeo.com/external/110121999.sd.mp4?s=40b3b4273361a1450ebe70e0dbcecc74","http://player.vimeo.com/external/110121999.hd.mp4?s=6d22706046eda0e76c00e4390ab47993"]
+
+  [25,"Born in 48","Rođene '48-e","","https://player.vimeo.com/external/143459104.mobile.mp4?s=aaa325050a0d4bb086c90705135be40d&profile_id=116","https://player.vimeo.com/external/143459104.sd.mp4?s=c914616351697cbd111910d866d25219&profile_id=112","https://player.vimeo.com/external/143459104.hd.mp4?s=874e4ec0ac3965e8d25209793e521f0b&profile_id=113"],
+
+  [27,"Palestine Divided","Podijeljena Palestina","","https://player.vimeo.com/external/143459104.mobile.mp4?s=aaa325050a0d4bb086c90705135be40d&profile_id=116","https://player.vimeo.com/external/143459104.sd.mp4?s=c914616351697cbd111910d866d25219&profile_id=112",""],
+
+  // [15,"The price of Oslo 2","Cijena Osla: drugi dio","","http://player.vimeo.com/external/110128580.mobile.mp4?s=0e84a5982ae709daae97a674ce5f9963","http://player.vimeo.com/external/110128580.sd.mp4?s=3afbf306fcbfea47d6f704cdcc7e0252","http://player.vimeo.com/external/110128580.hd.mp4?s=0b2f0a61204844bd72b012c6b653bbe7"],
+  // [20,"Al Nakba 4","Al Nakba: Palestinska katastrofa, Epizoda 4","","http://player.vimeo.com/external/110121999.mobile.mp4?s=6e0952b3840090ccffd4319dc05f5d56","http://player.vimeo.com/external/110121999.sd.mp4?s=40b3b4273361a1450ebe70e0dbcecc74","http://player.vimeo.com/external/110121999.hd.mp4?s=6d22706046eda0e76c00e4390ab47993"]
+
     // [
     //     23,
     //     'Stories from the Intifada 1',
