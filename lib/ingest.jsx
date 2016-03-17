@@ -18,7 +18,7 @@ const Ingest = React.createClass({
           <br />
           <textarea ref="text" value={this.state.value} onChange={this._onChange}></textarea>
           <br />
-          <button onClick={this._onClickSBV}>process</button>
+          <button onClick={this._onClickTXT}>process</button>
           <hr />
           <button onClick={this._onClickVideo}>import video data</button>
         </section>
@@ -30,30 +30,30 @@ const Ingest = React.createClass({
     this.setState({value: event.target.value});
   },
 
-  // _onClickTXT: function (event) {
-  //   const rows = this.state.value.split(/\n/);
-  //   const itemsRef = this.firebaseRef.child(this.props.id);
-  //
-  //   let para = false;
-  //   for (let i = 0; i < rows.length; i++) {
-  //     if (rows[i] === '') {
-  //       para = true;
-  //       continue;
-  //     }
-  //
-  //     const itemRef = itemsRef.push({
-  //       start: -1,
-  //       end: -1,
-  //       para,
-  //       order: i * 1337,
-  //       text: rows[i],
-  //     });
-  //
-  //     console.log(itemRef.key());
-  //
-  //     para = false;
-  //   }
-  // },
+  _onClickTXT: function (event) {
+    const rows = this.state.value.split(/\n/);
+    const itemsRef = this.firebaseRef.child(this.props.id);
+
+    let para = false;
+    for (let i = 0; i < rows.length; i++) {
+      if (rows[i] === '') {
+        para = true;
+        continue;
+      }
+
+      const itemRef = itemsRef.push({
+        start: -1,
+        end: -1,
+        para,
+        order: i * 1337,
+        text: rows[i],
+      });
+
+      console.log(itemRef.key());
+
+      para = false;
+    }
+  },
 
   _tc2ms: function (tc) {
     const [hh, mm, ss, zz] = tc.split(':');
@@ -268,8 +268,8 @@ const Ingest = React.createClass({
   },
 
   _onClickVideo: function (event) {
-    const videos = videosBosnian;
-    const videosRef = this.firebaseRef.child('videos-bosnian');
+    const videos = videosEnglish;
+    const videosRef = this.firebaseRef.child('videos-english');
 
 
     for (let i = 1; i < videos.length; i++) {
@@ -294,18 +294,18 @@ export default Ingest;
 
 /*eslint-disable */
 
-var videosBosnian = [
-  [
-      "id",
-      "title",
-      "youtube",
-      "mobile",
-      "vimeo sd",
-      "vimeo hd",
-      ""
-  ],
+// var videosBosnian = [
+//   [
+//       "id",
+//       "title",
+//       "youtube",
+//       "mobile",
+//       "vimeo sd",
+//       "vimeo hd",
+//       ""
+//   ],
 
-  [125,"Born in 48","Rođene '48-e","","https://player.vimeo.com/external/143461251.mobile.mp4?s=92a621d2956fc5556f45a62520327725&profile_id=116","https://player.vimeo.com/external/143461251.sd.mp4?s=8d9751c7899cd5d5391750c8daf6c24a&profile_id=112","https://player.vimeo.com/external/143461251.hd.mp4?s=3fca831541bbfccec36176a619f7931c&profile_id=113"],
+  // [125,"Born in 48","Rođene '48-e","","https://player.vimeo.com/external/143461251.mobile.mp4?s=92a621d2956fc5556f45a62520327725&profile_id=116","https://player.vimeo.com/external/143461251.sd.mp4?s=8d9751c7899cd5d5391750c8daf6c24a&profile_id=112","https://player.vimeo.com/external/143461251.hd.mp4?s=3fca831541bbfccec36176a619f7931c&profile_id=113"],
 
   // [25,"Born in 48","Rođene '48-e","","https://player.vimeo.com/external/143459104.mobile.mp4?s=aaa325050a0d4bb086c90705135be40d&profile_id=116","https://player.vimeo.com/external/143459104.sd.mp4?s=c914616351697cbd111910d866d25219&profile_id=112","https://player.vimeo.com/external/143459104.hd.mp4?s=874e4ec0ac3965e8d25209793e521f0b&profile_id=113"],
 
@@ -359,86 +359,10 @@ var videosBosnian = [
     //     'https://player.vimeo.com/external/142124822.sd.mp4?s=81b9a8e6728de0b82ff0cbd51ce53e54&profile_id=112',
     //     ''
     // ]
-];
+// ];
 
 
-var videosTurkish = [
-    [
-        "id",
-        "title",
-        "youtube",
-        "mobile",
-        "vimeo sd",
-        "vimeo hd",
-        ""
-    ],
-    [
-        21,
-        'Deportees',
-        '',
-        '',
-        'https://player.vimeo.com/external/142108848.mobile.mp4?s=fc518d0cc85e5f3abd549fa0d557f507&profile_id=116',
-        'https://player.vimeo.com/external/142108848.sd.mp4?s=cdec2011c88fff0949e658e1e2f926a7&profile_id=112',
-        'https://player.vimeo.com/external/142108848.hd.mp4?s=a94041da0de4b0aca91146820a9af7b4&profile_id=113'
-    ],
-    [
-        22,
-        'Return to Morocco',
-        '',
-        '',
-        'https://player.vimeo.com/external/142108849.mobile.mp4?s=09ed7afbdc522f5ff845a215c717f490&profile_id=116',
-        'https://player.vimeo.com/external/142108849.sd.mp4?s=0e05c9160371b50c0328dd0eb8a20e95&profile_id=112',
-        'https://player.vimeo.com/external/142108849.hd.mp4?s=2f4646f17b8f69364669d69de4f918e8&profile_id=113'
-    ],
-    [
-        23,
-        'Stories from the Intifada p1',
-        '',
-        '',
-        'https://player.vimeo.com/external/142108847.mobile.mp4?s=4b8bdf25a9db0ee92ec4d409f07c4a59&profile_id=116',
-        'https://player.vimeo.com/external/142108847.sd.mp4?s=0100608d3d338ae29df2860a3fcd917e&profile_id=112',
-        'https://player.vimeo.com/external/142108847.hd.mp4?s=9c0adb96b1b456ac127e54478315c35a&profile_id=113'
-    ],
-    [
-        24,
-        'Stories from the Intifada p2',
-        '',
-        '',
-        'https://player.vimeo.com/external/142108846.mobile.mp4?s=6fc024c14104b051f1ecbe35ef9cd8ec&profile_id=116',
-        'https://player.vimeo.com/external/142108846.sd.mp4?s=a2b0cfe1b297745cfd14a29f5a511814&profile_id=112',
-        'https://player.vimeo.com/external/142108846.hd.mp4?s=9305ffe4ca8cacafb55b2fefaa080fd6&profile_id=113'
-    ],
-    [
-        25,
-        'Born in 1948',
-        '',
-        '',
-        'https://player.vimeo.com/external/142480739.mobile.mp4?s=30d4afd2163600c5f110242c6e381247&profile_id=116',
-        'https://player.vimeo.com/external/142480739.sd.mp4?s=279744fada390b84a889bf555ac03117&profile_id=112',
-        'https://player.vimeo.com/external/142480739.hd.mp4?s=c9b5b6d280c854002d71bdf1c7191aed&profile_id=113'
-    ],
-    [
-        26,
-        'Jerusalem Hitting Home',
-        '',
-        '',
-        'https://player.vimeo.com/external/142397473.mobile.mp4?s=1b0c70d604c385cafeadd30924f2626a&profile_id=116',
-        'https://player.vimeo.com/external/142397473.sd.mp4?s=eb1978b3b964dab165e235d9a62cb599&profile_id=112',
-        'https://player.vimeo.com/external/142397473.hd.mp4?s=8e6a81872e38db9c5eb4c59efa7f1430&profile_id=113'
-    ],
-    [
-        27,
-        'Divided Homeland',
-        '',
-        '',
-        'https://player.vimeo.com/external/142480740.mobile.mp4?s=d597c9d8b78d1287cc8e8fc0acb5044e&profile_id=116',
-        'https://player.vimeo.com/external/142480740.sd.mp4?s=3109d866b70575543943f482458a85ae&profile_id=112',
-        'https://player.vimeo.com/external/142480740.hd.mp4?s=af75712cf0bcfaff5dab48bfd066127f&profile_id=113'
-    ]
-];
-
-
-// var videosEnglish = [
+// var videosTurkish = [
 //     [
 //         "id",
 //         "title",
@@ -448,6 +372,85 @@ var videosTurkish = [
 //         "vimeo hd",
 //         ""
 //     ],
+//     [
+//         21,
+//         'Deportees',
+//         '',
+//         '',
+//         'https://player.vimeo.com/external/142108848.mobile.mp4?s=fc518d0cc85e5f3abd549fa0d557f507&profile_id=116',
+//         'https://player.vimeo.com/external/142108848.sd.mp4?s=cdec2011c88fff0949e658e1e2f926a7&profile_id=112',
+//         'https://player.vimeo.com/external/142108848.hd.mp4?s=a94041da0de4b0aca91146820a9af7b4&profile_id=113'
+//     ],
+//     [
+//         22,
+//         'Return to Morocco',
+//         '',
+//         '',
+//         'https://player.vimeo.com/external/142108849.mobile.mp4?s=09ed7afbdc522f5ff845a215c717f490&profile_id=116',
+//         'https://player.vimeo.com/external/142108849.sd.mp4?s=0e05c9160371b50c0328dd0eb8a20e95&profile_id=112',
+//         'https://player.vimeo.com/external/142108849.hd.mp4?s=2f4646f17b8f69364669d69de4f918e8&profile_id=113'
+//     ],
+//     [
+//         23,
+//         'Stories from the Intifada p1',
+//         '',
+//         '',
+//         'https://player.vimeo.com/external/142108847.mobile.mp4?s=4b8bdf25a9db0ee92ec4d409f07c4a59&profile_id=116',
+//         'https://player.vimeo.com/external/142108847.sd.mp4?s=0100608d3d338ae29df2860a3fcd917e&profile_id=112',
+//         'https://player.vimeo.com/external/142108847.hd.mp4?s=9c0adb96b1b456ac127e54478315c35a&profile_id=113'
+//     ],
+//     [
+//         24,
+//         'Stories from the Intifada p2',
+//         '',
+//         '',
+//         'https://player.vimeo.com/external/142108846.mobile.mp4?s=6fc024c14104b051f1ecbe35ef9cd8ec&profile_id=116',
+//         'https://player.vimeo.com/external/142108846.sd.mp4?s=a2b0cfe1b297745cfd14a29f5a511814&profile_id=112',
+//         'https://player.vimeo.com/external/142108846.hd.mp4?s=9305ffe4ca8cacafb55b2fefaa080fd6&profile_id=113'
+//     ],
+//     [
+//         25,
+//         'Born in 1948',
+//         '',
+//         '',
+//         'https://player.vimeo.com/external/142480739.mobile.mp4?s=30d4afd2163600c5f110242c6e381247&profile_id=116',
+//         'https://player.vimeo.com/external/142480739.sd.mp4?s=279744fada390b84a889bf555ac03117&profile_id=112',
+//         'https://player.vimeo.com/external/142480739.hd.mp4?s=c9b5b6d280c854002d71bdf1c7191aed&profile_id=113'
+//     ],
+//     [
+//         26,
+//         'Jerusalem Hitting Home',
+//         '',
+//         '',
+//         'https://player.vimeo.com/external/142397473.mobile.mp4?s=1b0c70d604c385cafeadd30924f2626a&profile_id=116',
+//         'https://player.vimeo.com/external/142397473.sd.mp4?s=eb1978b3b964dab165e235d9a62cb599&profile_id=112',
+//         'https://player.vimeo.com/external/142397473.hd.mp4?s=8e6a81872e38db9c5eb4c59efa7f1430&profile_id=113'
+//     ],
+//     [
+//         27,
+//         'Divided Homeland',
+//         '',
+//         '',
+//         'https://player.vimeo.com/external/142480740.mobile.mp4?s=d597c9d8b78d1287cc8e8fc0acb5044e&profile_id=116',
+//         'https://player.vimeo.com/external/142480740.sd.mp4?s=3109d866b70575543943f482458a85ae&profile_id=112',
+//         'https://player.vimeo.com/external/142480740.hd.mp4?s=af75712cf0bcfaff5dab48bfd066127f&profile_id=113'
+//     ]
+// ];
+
+
+var videosEnglish = [
+    [
+        "id",
+        "title",
+        "youtube",
+        "mobile",
+        "vimeo sd",
+        "vimeo hd",
+        ""
+    ],
+    // [28,"Human Shields","","https://player.vimeo.com/external/159054725.sd.mp4?s=b1e2833e64320058079edd92a1b21ff4659ce32c&profile_id=164","https://player.vimeo.com/external/159054725.sd.mp4?s=b1e2833e64320058079edd92a1b21ff4659ce32c&profile_id=165","https://player.vimeo.com/external/159054725.hd.mp4?s=584622d084620407c3f7b0a6c3455af021fe1d62&profile_id=113"],
+    // [29,"Dividing Al Aqsa","","https://player.vimeo.com/external/159054743.sd.mp4?s=4f1de8cee9200a56a0830a76c5257f669e3cc5e4&profile_id=164","https://player.vimeo.com/external/159054743.sd.mp4?s=4f1de8cee9200a56a0830a76c5257f669e3cc5e4&profile_id=165","https://player.vimeo.com/external/159054743.hd.mp4?s=9e9384a3781ab76447a5c9f5a80f686d987d51c1&profile_id=113"],
+    // [30,"Defying my disability","","https://player.vimeo.com/external/159054753.sd.mp4?s=4d71979540ad2dc9bd641277f07e2361c79cb5ac&profile_id=164","https://player.vimeo.com/external/159054753.sd.mp4?s=4d71979540ad2dc9bd641277f07e2361c79cb5ac&profile_id=165","https://player.vimeo.com/external/159054753.hd.mp4?s=e325a465c9e1e3d55b1b4e0e446d89f848bd4aac&profile_id=113"]
 //     [
 //         0,
 //         "Going against the grain",
@@ -690,7 +693,7 @@ var videosTurkish = [
 //         "Divided Homeland",
 //         ""
 //     ]
-// ];
+];
 
 // var videosArabic = [
 //     [

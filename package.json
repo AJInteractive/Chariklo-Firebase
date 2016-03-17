@@ -23,7 +23,7 @@
       "reactfire": "npm:reactfire@^0.4.0",
       "systemjs/system-font": "github:systemjs/system-font@^0.1.0",
       "tiny-react-router": "npm:tiny-react-router@^1.0.1",
-      "typekit/webfontloader": "github:typekit/webfontloader@^1.6.3",
+      "typekit/webfontloader": "github:typekit/webfontloader@^1.6.22",
       "webfont": "github:components/webfontloader@^1.6.3"
     },
     "devDependencies": {
