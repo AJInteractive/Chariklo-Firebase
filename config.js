@@ -1,5 +1,3 @@
-/*eslint-disable */
-
 System.config({
   "baseURL": "/",
   "transpiler": "babel",
@@ -11,8 +9,7 @@ System.config({
   "paths": {
     "*": "*.js",
     "github:*": "jspm_packages/github/*.js",
-    "npm:*": "jspm_packages/npm/*.js",
-    "bower:*": "jspm_packages/bower/*.js"
+    "npm:*": "jspm_packages/npm/*.js"
   }
 });
 
@@ -23,9 +20,9 @@ System.config({
     "babel": "npm:babel-core@5.5.6",
     "babel-runtime": "npm:babel-runtime@5.5.6",
     "components/jquery": "github:components/jquery@2.1.4",
+    "components/webfontloader": "github:components/webfontloader@1.6.3",
     "core-js": "npm:core-js@0.9.16",
     "css": "npm:jspm-loader-css@0.1.1",
-    "dat-gui": "bower:dat-gui@0.5.1",
     "firebase": "npm:firebase@2.2.7",
     "font": "github:systemjs/system-font@0.1.0",
     "interact.js": "npm:interact.js@1.2.4",
@@ -38,8 +35,11 @@ System.config({
     "react": "npm:react@0.14.0-alpha3",
     "react-contenteditable": "npm:react-contenteditable@0.0.2",
     "react-json-inspector": "npm:react-json-inspector@5.1.0",
+    "react-router": "npm:react-router@1.0.3",
     "reactfire": "npm:reactfire@0.4.0",
+    "systemjs/system-font": "github:systemjs/system-font@0.1.0",
     "tiny-react-router": "npm:tiny-react-router@1.0.1",
+    "typekit/webfontloader": "github:typekit/webfontloader@1.6.22",
     "webfont": "github:components/webfontloader@1.6.3",
     "github:floatdrop/plugin-jsx@1.1.0": {
       "react-tools": "npm:react-tools@0.13.3"
@@ -362,6 +362,15 @@ System.config({
     "npm:hash.js@1.0.3": {
       "inherits": "npm:inherits@2.0.1"
     },
+    "npm:history@1.17.0": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "deep-equal": "npm:deep-equal@1.0.1",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "invariant": "npm:invariant@2.2.1",
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "query-string": "npm:query-string@3.0.1",
+      "warning": "npm:warning@2.1.0"
+    },
     "npm:https-browserify@0.0.0": {
       "http": "github:jspm/nodelibs-http@1.7.1"
     },
@@ -386,6 +395,10 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
+    "npm:invariant@2.2.1": {
+      "loose-envify": "npm:loose-envify@1.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
     "npm:js-base64@2.1.8": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
@@ -403,6 +416,12 @@ System.config({
     },
     "npm:lodash-node@3.9.3": {
       "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:loose-envify@1.1.0": {
+      "js-tokens": "npm:js-tokens@1.0.2",
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "stream": "github:jspm/nodelibs-stream@0.1.0",
+      "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:miller-rabin@2.0.1": {
       "bn.js": "npm:bn.js@2.0.5",
@@ -490,6 +509,9 @@ System.config({
     "npm:q@1.1.2": {
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
+    "npm:query-string@3.0.1": {
+      "strict-uri-encode": "npm:strict-uri-encode@1.1.0"
+    },
     "npm:randombytes@2.0.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
@@ -507,6 +529,14 @@ System.config({
       "object-assign": "npm:object-assign@2.0.0",
       "react": "npm:react@0.13.3",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+    },
+    "npm:react-router@1.0.3": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "history": "npm:history@1.17.0",
+      "invariant": "npm:invariant@2.2.1",
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "warning": "npm:warning@2.1.0"
     },
     "npm:react-tools@0.13.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -620,6 +650,10 @@ System.config({
     },
     "npm:vm-browserify@0.0.4": {
       "indexof": "npm:indexof@0.0.1"
+    },
+    "npm:warning@2.1.0": {
+      "loose-envify": "npm:loose-envify@1.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:websocket-driver@0.5.4": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",

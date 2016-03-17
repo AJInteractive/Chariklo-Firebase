@@ -7,7 +7,6 @@
       "components/jquery": "github:components/jquery@^2.1.4",
       "components/webfontloader": "github:components/webfontloader@^1.6.3",
       "css": "npm:jspm-loader-css@^0.1.1",
-      "dat-gui": "bower:dat-gui@^0.5.1",
       "firebase": "npm:firebase@^2.2.7",
       "font": "github:systemjs/system-font@^0.1.0",
       "interact.js": "npm:interact.js@^1.2.4",
@@ -35,10 +34,6 @@
     "overrides": {
       "npm:normalize.css@3.0.3": {
         "main": "normalize.css!"
-      },
-      "bower:dat-gui@0.5.1": {
-        "main": "build/dat.gui.js",
-        "format": "global"
       },
       "github:X3TechnologyGroup/VideoFrame@master": {
         "main": "VideoFrame.js",
