@@ -268,8 +268,9 @@ const Ingest = React.createClass({
   },
 
   _onClickVideo: function (event) {
-    const videos = videosEnglish;
-    const videosRef = this.firebaseRef.child('videos-english');
+    return alert('disabled');
+    const videos = videosArabic;
+    const videosRef = this.firebaseRef.child('videos-arabic');
 
 
     for (let i = 1; i < videos.length; i++) {
@@ -695,16 +696,43 @@ var videosEnglish = [
 //     ]
 ];
 
-// var videosArabic = [
-//     [
-//         "id",
-//         "title",
-//         "youtube",
-//         "mobile",
-//         "vimeo sd",
-//         "vimeo hd",
-//         ""
-//     ],
+var videosArabic = [
+    [
+        "id",
+        "title",
+        "youtube",
+        "mobile",
+        "vimeo sd",
+        "vimeo hd",
+        ""
+    ],
+    [
+        28,
+        "AJA-Gaza Human Shields",
+        "https://player.vimeo.com/external/162938001.sd.mp4?s=6e03aa9850cf0089d23458014d728176e4e3411a&profile_id=165", // yt
+        "https://player.vimeo.com/external/162938001.sd.mp4?s=6e03aa9850cf0089d23458014d728176e4e3411a&profile_id=165", // m
+        "https://player.vimeo.com/external/162938001.sd.mp4?s=6e03aa9850cf0089d23458014d728176e4e3411a&profile_id=165", // sd
+        "https://player.vimeo.com/external/162938001.sd.mp4?s=6e03aa9850cf0089d23458014d728176e4e3411a&profile_id=165", // hd
+        ""
+    ],
+    [
+        29,
+        "AJA-Jerusalem-Dividing",
+        "https://player.vimeo.com/external/159251303.sd.mp4?s=7bd1ef63e609ac4d01ebb78cefd5fd646413a5d3&profile_id=165", // yt
+        "https://player.vimeo.com/external/159251303.sd.mp4?s=7bd1ef63e609ac4d01ebb78cefd5fd646413a5d3&profile_id=165", // m
+        "https://player.vimeo.com/external/159251303.sd.mp4?s=7bd1ef63e609ac4d01ebb78cefd5fd646413a5d3&profile_id=165", // sd
+        "https://player.vimeo.com/external/159251303.sd.mp4?s=7bd1ef63e609ac4d01ebb78cefd5fd646413a5d3&profile_id=165", // hd
+        ""
+    ],
+    [
+        30,
+        "AJA-Defying My Disability",
+        "https://player.vimeo.com/external/162943091.sd.mp4?s=a9f1fdc6b5ca9ff75aad3015e674f5eba35f8375&profile_id=165", // yt
+        "https://player.vimeo.com/external/162943091.sd.mp4?s=a9f1fdc6b5ca9ff75aad3015e674f5eba35f8375&profile_id=165", // m
+        "https://player.vimeo.com/external/162943091.sd.mp4?s=a9f1fdc6b5ca9ff75aad3015e674f5eba35f8375&profile_id=165", // sd
+        "https://player.vimeo.com/external/162943091.sd.mp4?s=a9f1fdc6b5ca9ff75aad3015e674f5eba35f8375&profile_id=165", // hd
+        ""
+    ],
 //     [
 //         0,
 //         "Going against the grain",
@@ -949,4 +977,4 @@ var videosEnglish = [
 //         "http://player.vimeo.com/external/129860404.hd.mp4?s=c707eb5b68edf206f444270d6f8e73b2&profile_id=113",
 //         ""
 //     ]
-// ];
+];
